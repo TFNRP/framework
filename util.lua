@@ -40,7 +40,8 @@ function RegisterCommandSuggestion(command, description, parameters, client)
 end
 
 function ContainsNonWhitespaceCharacter(string)
-    for _, char in ipairs(string) do
+    for i = 1, #string do
+        local char = string:sub(i,i)
         if char ~= ' ' then
             return true
         end

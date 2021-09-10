@@ -70,9 +70,9 @@ RegisterFrameworkCommand({ 'pm', 'dm', 'message' }, function (source, args, raw)
     if type(player) ~= 'number' or player <= 0 then
         return CommandWarning('This player doesn\'t exist.')
     end
-    -- if serverId == clientId then
-    --     return CommandWarning('You PM\'d yourself. Wait, you can\'t.')
-    -- end
+    if serverId == clientId then
+        return CommandWarning('You PM\'d yourself. Wait, you can\'t.')
+    end
 
     print(serverId, clientId)
 

@@ -61,7 +61,7 @@ end)
 
 RegisterFrameworkCommand({'me', 'do'}, function (source, args, raw)
     TriggerClientEvent('chat:addProximityMessage', -1, source, {
-        args = { '^r ' .. GetPlayerName(source), '^r ' .. message },
+        args = { '^r ' .. GetPlayerName(source), '^r ' .. table.concat(args, ' ') },
     })
 end, false)
 

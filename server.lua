@@ -55,8 +55,7 @@ AddEventHandler('chatMessage', function(source, name, message)
     CancelEvent()
 end)
 
-RegisterNetEvent('chat:addPrivateMessage')
-AddEventHandler('chat:addPrivateMessage', function (serverId, message)
+RegisterNetEvent('chat:addPrivateMessage', function (serverId, message)
     TriggerClientEvent('chat:addMessage', serverId, message)
 end)
 

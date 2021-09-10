@@ -92,8 +92,7 @@ end, false)
 -----/
 
 
-RegisterNetEvent('leo:dutyChange')
-AddEventHandler('leo:dutyChange', function (bool)
+RegisterNetEvent('leo:dutyChange', function (bool)
     if bool == true then
         isOnDuty = true
         ShowNotification('You are now ~g~on~s~ duty.')
@@ -105,8 +104,7 @@ AddEventHandler('leo:dutyChange', function (bool)
     return isOnDuty
 end)
 
-RegisterNetEvent('chat:addProximityMessage')
-AddEventHandler('chat:addProximityMessage', function (serverId, message)
+RegisterNetEvent('chat:addProximityMessage', function (serverId, message)
     local player = GetPlayerFromServerId(serverId)
     local client = PlayerId()
     if player == client or GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(client)), GetEntityCoords(GetPlayerPed(player)), true) < Constants.ProximityMessageDistance then

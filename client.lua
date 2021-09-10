@@ -1,5 +1,6 @@
 -- vars
 local isOnDuty = false
+local isPointing = false
 
 -- suggestions
 
@@ -31,6 +32,66 @@ Citizen.CreateThread(function()
     end
 end)
 
+
+-- commands
+
+
+RegisterFrameworkCommand('point', function()
+	RequestAnimDict("anim@mp_point")
+    while not HasAnimDictLoaded("anim@mp_point") do
+        Wait(0)
+    end
+
+	if isPointing then
+		ClearPedTasks(ped)
+        isPointing = false
+	else
+        local ped = GetPlayerPed(-1);
+	    Citizen.Wait(10)
+        TaskMoveNetworkByName(ped, "task_mp_pointing", 0.5, 0, "anim@mp_point", 24)
+        isPointing = true
+	end
+end, false)
+
+RegisterFrameworkCommand({ 'pm', 'dm', 'message' }, function (source, args, raw)
+    local clientId = GetPlayerServerId(PlayerId(-1))
+    local serverId = tonumber(args[1])
+    local argMessage = table.concat(args, ' ', 2)
+    -- argument validation
+    if type(serverId) ~= 'number' then
+        return CommandWarning('player must be a server id.')
+    end
+    if #argMessage <= 0 then
+        return CommandWarning('message must be more than 0 characters.')
+    end
+
+    -- validation
+    local player = GetPlayerFromServerId(serverId)
+    if type(player) ~= 'number' or player <= 0 then
+        return CommandWarning('This player doesn\'t exist.')
+    end
+    -- if serverId == clientId then
+    --     return CommandWarning('You PM\'d yourself. Wait, you can\'t.')
+    -- end
+
+    print(serverId, clientId)
+
+    TriggerServerEvent('chat:addPrivateMessage', serverId, { args = { string.format(Format.PM, GetPlayerName(player), 'You'), argMessage } })
+    TriggerEvent('chat:addMessage', { args = { string.format(Format.PM, 'You', GetPlayerName(player)), argMessage } })
+end, false)
+
+RegisterFrameworkCommand('discord', function()
+    exports.copyutil:Copy(Constants.DiscordInvite)
+    TriggerEvent('chat:addMessage', {
+        args = { '^*Copied to Clipboard! >> ^5^_' .. Constants.DiscordInvite },
+        color = { 245, 191, 66 },
+    })
+end, false)
+
+
+-----/
+
+
 RegisterNetEvent('leo:dutyChange')
 AddEventHandler('leo:dutyChange', function (bool)
     if bool == true then
@@ -43,6 +104,21 @@ AddEventHandler('leo:dutyChange', function (bool)
 
     return isOnDuty
 end)
+
+RegisterNetEvent('chat:addProximityMessage')
+AddEventHandler('chat:addProximityMessage', function (serverId, message)
+    local player = GetPlayerFromServerId(serverId)
+    local client = PlayerId()
+    if player == client or GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(client)), GetEntityCoords(GetPlayerPed(player)), true) < Constants.ProximityMessageDistance then
+        TriggerEvent('chat:addMessage', message)
+    end
+end)
+
+-- util
+
+function CommandWarning(message)
+    TriggerEvent('chat:addMessage', { args = { message } })
+end
 
 function IsLocalClientOnDuty()
     return isOnDuty

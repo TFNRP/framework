@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
 		SetDiscordRichPresenceAction(0, 'Connect ('..#GetActivePlayers()..'/32)', 'https://cfx.re/join/734okr')
 		local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
 		local StreetHash = GetStreetNameAtCoord(x, y, z)
-		local OnDuty = exports.leo:IsLocalClientOnDuty()
+		local OnDuty = exports.framework:IsLocalClientOnDuty()
 		Citizen.Wait(WaitTime * 1000)
 		if StreetHash ~= nil then
 			StreetName = GetStreetNameFromHashKey(StreetHash)

@@ -88,6 +88,36 @@ RegisterFrameworkCommand('discord', function()
     })
 end, false)
 
+RegisterFrameworkCommand({'dv', 'delveh'}, function()
+    local ped = GetPlayerPed(-1)
+    if (IsPedSittingInAnyVehicle(ped)) then
+        local vehicle = GetVehiclePedIsIn(ped, false)
+        if (GetPedInVehicleSeat(vehicle, -1) == ped) then
+            SetEntityAsMissionEntity(vehicle, true, true)
+            DeleteVehicle(vehicle)
+		    if not (DoesEntityExist(vehicle)) then
+		    	ShowNotification("~g~Success: ~s~Vehicle deleted.")
+		    end
+        else
+            ShowNotification("~r~Error: ~s~You must be the driver of the vehicle.")
+        end
+    else
+        local position = GetEntityCoords(ped)
+        local front = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)
+		local rayHandle = CastRayPointToPoint(position.x, position.y, position.z, front.x, front.y, front.z, 10, ped, 0)
+		local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
+        if (DoesEntityExist(vehicle)) then
+            SetEntityAsMissionEntity(vehicle, true, true)
+            DeleteVehicle(vehicle)
+		    if not (DoesEntityExist(vehicle)) then
+		    	ShowNotification("~g~Success: ~s~Vehicle deleted.")
+		    end
+        else
+            ShowNotification("~r~Error: ~w~You must be close to or in a vehicle.")
+        end
+    end
+end)
+
 
 -----/
 

@@ -18,3 +18,4 @@ RegisterCommandSuggestion({ 'twt', 'tweet', 'twitter' }, 'Send a tweet.', {
     { name = 'message', help = 'The message you would like to tweet.' },
 })
 RegisterCommandSuggestion({ 'rt', 'retweet' }, 'Retweet the last tweet.')
+RegisterCommandSuggestion({ 'dv', 'delveh' }, 'Delete the nearest vehicle.')

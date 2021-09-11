@@ -13,10 +13,10 @@ end)
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
     while true do
-	    SetWeaponDamageModifierThisFrame(GetHashKey("WEAPON_STUNGUN"), 0.1) 
-    	Citizen.Wait(0)
-    	SetWeaponDamageModifierThisFrame(GetHashKey("WEAPON_NIGHTSTICK"), 0.1) 
-    	Citizen.Wait(0)
+        SetWeaponDamageModifierThisFrame(GetHashKey("WEAPON_STUNGUN"), 0.1) 
+        Citizen.Wait(0)
+        SetWeaponDamageModifierThisFrame(GetHashKey("WEAPON_NIGHTSTICK"), 0.1) 
+        Citizen.Wait(0)
     end
 end)
 
@@ -25,8 +25,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
         if IsPedArmed(PlayerPedId(), 6) then
-	        DisableControlAction(1, 140, true)
-       	    DisableControlAction(1, 141, true)
+            DisableControlAction(1, 140, true)
+               DisableControlAction(1, 141, true)
             DisableControlAction(1, 142, true)
         end
     end
@@ -37,20 +37,20 @@ end)
 
 
 RegisterFrameworkCommand('point', function()
-	RequestAnimDict("anim@mp_point")
+    RequestAnimDict("anim@mp_point")
     while not HasAnimDictLoaded("anim@mp_point") do
         Wait(0)
     end
 
-	if isPointing then
-		ClearPedTasks(ped)
+    if isPointing then
+        ClearPedTasks(ped)
         isPointing = false
-	else
+    else
         local ped = GetPlayerPed(-1);
-	    Citizen.Wait(10)
+        Citizen.Wait(10)
         TaskMoveNetworkByName(ped, "task_mp_pointing", 0.5, 0, "anim@mp_point", 24)
         isPointing = true
-	end
+    end
 end, false)
 
 RegisterFrameworkCommand({ 'pm', 'dm', 'message' }, function (source, args, raw)
@@ -95,23 +95,23 @@ RegisterFrameworkCommand({'dv', 'delveh'}, function()
         if (GetPedInVehicleSeat(vehicle, -1) == ped) then
             SetEntityAsMissionEntity(vehicle, true, true)
             DeleteVehicle(vehicle)
-		    if not (DoesEntityExist(vehicle)) then
-		    	ShowNotification("~g~Success: ~s~Vehicle deleted.")
-		    end
+            if not (DoesEntityExist(vehicle)) then
+                ShowNotification("~g~Success: ~s~Vehicle deleted.")
+            end
         else
             ShowNotification("~r~Error: ~s~You must be the driver of the vehicle.")
         end
     else
         local position = GetEntityCoords(ped)
         local front = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)
-		local rayHandle = CastRayPointToPoint(position.x, position.y, position.z, front.x, front.y, front.z, 10, ped, 0)
-		local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
+        local rayHandle = CastRayPointToPoint(position.x, position.y, position.z, front.x, front.y, front.z, 10, ped, 0)
+        local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
         if (DoesEntityExist(vehicle)) then
             SetEntityAsMissionEntity(vehicle, true, true)
             DeleteVehicle(vehicle)
-		    if not (DoesEntityExist(vehicle)) then
-		    	ShowNotification("~g~Success: ~s~Vehicle deleted.")
-		    end
+            if not (DoesEntityExist(vehicle)) then
+                ShowNotification("~g~Success: ~s~Vehicle deleted.")
+            end
         else
             ShowNotification("~r~Error: ~w~You must be close to or in a vehicle.")
         end

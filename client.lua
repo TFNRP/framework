@@ -32,6 +32,23 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- disable vehicle shuffle
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    local ped = GetPlayerPed(-1)
+		if IsPedInAnyVehicle(ped, false) then
+      local vehicle = GetVehiclePedIsIn(ped, 0)
+			if GetPedInVehicleSeat(vehicle, 0) == ped then
+				if GetIsTaskActive(ped, 165) then
+					SetPedIntoVehicle(ped, vehicle, 0)
+				  SetVehicleCloseDoorDeferedAction(vehicle, 0)
+			  end
+		  end
+    end
+  end
+end)
+
 
 -- commands
 

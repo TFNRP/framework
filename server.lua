@@ -109,16 +109,7 @@ function IsOnDuty (source)
 end
 
 function GetPlayerDisplayName(source)
-  local prefixes = {
-    {"prefix.admin", "^1[Administrator] "},
-    {"prefix.moderator", "^2[Moderator] "},
-    {"prefix.staff", "^2[Staff] "},
-    {"prefix.lspd", "^5[LSPD] "},
-    {"prefix.bcso", "^8[BCSO] "},
-    {"prefix.sahp", "^3[SAHP] "},
-    {"prefix.sams", "^2[SAMS] "},
-  }
-  for _, prefix in ipairs(prefixes) do
+  for _, prefix in ipairs(Config.PlayerDisplayPrefixes) do
     if IsPlayerAceAllowed(source, prefix[1]) ~= false then return prefix[2] .. GetPlayerName(source) .. "^0" end
   end
   return GetPlayerName(source) .. "^0"

@@ -1,8 +1,11 @@
 fx_version 'cerulean'
 game 'gta5'
 
-client_script {
+shared_script {
+    'config.lua',
     'util.lua',
+}
+client_script {
     'client.lua',
     'presence.lua',
     'suggestions.lua',
@@ -14,7 +17,6 @@ export {
     'RegisterFrameworkCommand',
 }
 server_script {
-    'util.lua',
     'server.lua',
 }
 server_export {

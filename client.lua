@@ -200,7 +200,7 @@ function GetVehiclePedIsInOrNear(ped, lastVehicle)
     return vehicle
   else
     local position = GetEntityCoords(ped)
-    local front = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)
+    local front = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
     local rayHandle = CastRayPointToPoint(position.x, position.y, position.z, front.x, front.y, front.z, 10, ped, 0)
     local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
     if DoesEntityExist(vehicle) then

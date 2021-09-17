@@ -22,3 +22,10 @@ RegisterCommandSuggestion({ 'dv', 'delveh' }, 'Delete the nearest vehicle.')
 RegisterCommandSuggestion('duty', 'Toggle on/off duty.')
 RegisterCommandSuggestion('offduty', 'Disable patrolman duties.')
 RegisterCommandSuggestion('onduty', 'Enable patrolman duties.')
+RegisterCommandSuggestion({ 'clean', 'wash' }, 'Clean the vehicle you\'re currently in.')
+RegisterCommandSuggestion({ 'fix', 'repair' }, 'Fix the vehicle you\'re currently in.')
+RegisterCommandSuggestion('hood', 'Open the hood of the vehicle you\'re currently in.')
+RegisterCommandSuggestion('trunk', 'Open the trunk of the vehicle you\'re currently in.')
+RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re currently in.', {
+    { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
+})

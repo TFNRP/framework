@@ -19,3 +19,6 @@ RegisterCommandSuggestion({ 'twt', 'tweet', 'twitter' }, 'Send a tweet.', {
 })
 RegisterCommandSuggestion({ 'rt', 'retweet' }, 'Retweet the last tweet.')
 RegisterCommandSuggestion({ 'dv', 'delveh' }, 'Delete the nearest vehicle.')
+RegisterCommandSuggestion('duty', 'Toggle on/off duty.')
+RegisterCommandSuggestion('offduty', 'Disable patrolman duties.')
+RegisterCommandSuggestion('onduty', 'Enable patrolman duties.')

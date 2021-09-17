@@ -2,14 +2,6 @@
 local isOnDuty = false
 local isPointing = false
 
--- suggestions
-
-Citizen.CreateThread(function()
-  TriggerEvent('chat:addSuggestion', '/duty', 'Toggle on/off duty.')
-  TriggerEvent('chat:addSuggestion', '/offduty', 'Disable patrolman duties.')
-  TriggerEvent('chat:addSuggestion', '/onduty', 'Enable patrolman duties.')
-end)
-
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
   while true do

@@ -135,6 +135,59 @@ RegisterFrameworkCommand({'dv', 'delveh'}, function()
   end
 end)
 
+RegisterFrameworkCommand({ 'fix', 'repair' }, function()
+  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  if vehicle and vehicle > 1 then
+    SetVehicleEngineHealth(vehicle, 1000)
+    SetVehicleEngineOn(vehicle, true, true, false)
+    SetVehicleFixed(vehicle)
+  end
+end)
+
+RegisterFrameworkCommand({ 'clean', 'wash' }, function()
+  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  if vehicle and vehicle > 1 then
+    SetVehicleDirtLevel(vehicle, 0)
+  end
+end)
+
+RegisterFrameworkCommand('hood', function()
+  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  if vehicle and vehicle > 1 then
+    if GetVehicleDoorAngleRatio(vehicle, 4) > 0 then
+      SetVehicleDoorShut(vehicle, 4, false)
+    else
+      SetVehicleDoorOpen(vehicle, 4, true, false)
+    end
+  end
+end)
+
+RegisterFrameworkCommand('trunk', function()
+  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  if vehicle and vehicle > 1 then
+    if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
+      SetVehicleDoorShut(vehicle, 5, false)
+    else
+      SetVehicleDoorOpen(vehicle, 5, true, false)
+    end
+  end
+end)
+
+RegisterFrameworkCommand('door', function(source, args, raw)
+  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  local door = (tonumber(args[1]) or 1) - 1
+  if vehicle and vehicle > 1 then
+    local doors = GetNumberOfVehicleDoors(vehicle) - 1
+    if doors > door then door = doors
+    elseif door < 0 then door = 0 end
+    if GetVehicleDoorAngleRatio(vehicle, door) > 0 then
+      SetVehicleDoorShut(vehicle, door, false)
+    else
+      SetVehicleDoorOpen(vehicle, door, true, false)
+    end
+  end
+end)
+
 
 -----/
 

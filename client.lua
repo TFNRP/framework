@@ -99,36 +99,24 @@ end, false)
 
 RegisterFrameworkCommand({'dv', 'delveh'}, function()
   local ped = GetPlayerPed(-1)
-  if (IsPedSittingInAnyVehicle(ped)) then
-    local vehicle = GetVehiclePedIsIn(ped, false)
-    if (GetPedInVehicleSeat(vehicle, -1) == ped) then
+  local vehicle = GetVehiclePedIsInOrNear(ped, false)
+  if vehicle and vehicle > 1 then
+    if IsPedSittingInVehicle(ped, vehicle) and GetPedInVehicleSeat(vehicle, -1) == ped then
+      ShowNotification("~r~Error: ~s~You must be the driver of the vehicle.")
+    else
       SetEntityAsMissionEntity(vehicle, true, true)
       DeleteVehicle(vehicle)
       if not (DoesEntityExist(vehicle)) then
         ShowNotification("~g~Success: ~s~Vehicle deleted.")
       end
-    else
-      ShowNotification("~r~Error: ~s~You must be the driver of the vehicle.")
     end
   else
-    local position = GetEntityCoords(ped)
-    local front = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)
-    local rayHandle = CastRayPointToPoint(position.x, position.y, position.z, front.x, front.y, front.z, 10, ped, 0)
-    local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
-    if (DoesEntityExist(vehicle)) then
-      SetEntityAsMissionEntity(vehicle, true, true)
-      DeleteVehicle(vehicle)
-      if not (DoesEntityExist(vehicle)) then
-        ShowNotification("~g~Success: ~s~Vehicle deleted.")
-      end
-    else
-      ShowNotification("~r~Error: ~w~You must be close to or in a vehicle.")
-    end
+    ShowNotification("~r~Error: ~w~You must be close to or in a vehicle.")
   end
 end)
 
 RegisterFrameworkCommand({ 'fix', 'repair' }, function()
-  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
     SetVehicleEngineHealth(vehicle, 1000)
     SetVehicleEngineOn(vehicle, true, true, false)
@@ -137,14 +125,14 @@ RegisterFrameworkCommand({ 'fix', 'repair' }, function()
 end)
 
 RegisterFrameworkCommand({ 'clean', 'wash' }, function()
-  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
     SetVehicleDirtLevel(vehicle, 0)
   end
 end)
 
 RegisterFrameworkCommand('hood', function()
-  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
     if GetVehicleDoorAngleRatio(vehicle, 4) > 0 then
       SetVehicleDoorShut(vehicle, 4, false)
@@ -155,7 +143,7 @@ RegisterFrameworkCommand('hood', function()
 end)
 
 RegisterFrameworkCommand('trunk', function()
-  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
     if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
       SetVehicleDoorShut(vehicle, 5, false)
@@ -166,7 +154,7 @@ RegisterFrameworkCommand('trunk', function()
 end)
 
 RegisterFrameworkCommand('door', function(source, args, raw)
-  local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   local door = (tonumber(args[1]) or 1) - 1
   if vehicle and vehicle > 1 then
     local doors = GetNumberOfVehicleDoors(vehicle) - 1
@@ -205,6 +193,20 @@ RegisterNetEvent('chat:addProximityMessage', function (serverId, message)
 end)
 
 -- util
+
+function GetVehiclePedIsInOrNear(ped, lastVehicle)
+  if IsPedSittingInAnyVehicle(ped) then
+    return GetVehiclePedIsIn(ped, lastVehicle)
+  else
+    local position = GetEntityCoords(ped)
+    local front = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)
+    local rayHandle = CastRayPointToPoint(position.x, position.y, position.z, front.x, front.y, front.z, 10, ped, 0)
+    local _, _, _, _, vehicle = GetRaycastResult(rayHandle)
+    if DoesEntityExist(vehicle) then
+      return vehicle
+    end
+  end
+end
 
 function CommandWarning(message)
   TriggerEvent('chat:addMessage', { args = { message } })

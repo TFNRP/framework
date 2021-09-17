@@ -195,8 +195,9 @@ end)
 -- util
 
 function GetVehiclePedIsInOrNear(ped, lastVehicle)
-  if IsPedSittingInAnyVehicle(ped) then
-    return GetVehiclePedIsIn(ped, lastVehicle)
+  local vehicle GetVehiclePedIsIn(ped, lastVehicle)
+  if vehicle and vehicle > 1 then
+    return vehicle
   else
     local position = GetEntityCoords(ped)
     local front = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 2.0, 0.0)

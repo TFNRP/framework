@@ -2,7 +2,6 @@ fx_version 'cerulean'
 game 'gta5'
 
 shared_script {
-    'config.lua',
     'util.lua',
 }
 client_script {
@@ -18,6 +17,7 @@ export {
 }
 server_script {
     'dependencies/**.lua',
+    'config.lua',
     'server.lua',
 }
 server_export {

@@ -83,8 +83,6 @@ RegisterFrameworkCommand({ 'pm', 'dm', 'message' }, function (source, args, raw)
     return CommandWarning('You PM\'d yourself. Wait, you can\'t.')
   end
 
-  print(serverId, clientId)
-
   TriggerServerEvent('chat:addPrivateMessage', serverId, { args = { string.format(Format.PM, GetPlayerName(player), 'You'), argMessage } })
   TriggerEvent('chat:addMessage', { args = { string.format(Format.PM, 'You', GetPlayerName(player)), argMessage } })
 end, false)

@@ -11,12 +11,13 @@ client_script {
     'suggestions.lua',
 }
 export {
-    'IsLocalClientOnDuty',
+    'GetLocalClientDuty',
     'RegisterCommandSuggestion',
     'RegisterCommandAlias',
     'RegisterFrameworkCommand',
 }
 server_script {
+    'dependencies/**.lua',
     'server.lua',
 }
 server_export {

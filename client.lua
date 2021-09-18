@@ -1,5 +1,5 @@
 -- vars
-local isOnDuty = false
+local duty = 0
 local isPointing = false
 
 -- decrease dmg output of taser & baton
@@ -172,16 +172,16 @@ end)
 -----/
 
 
-RegisterNetEvent('leo:dutyChange', function (bool)
-  if bool == true then
-    isOnDuty = true
+RegisterNetEvent('framework:dutyChange', function (id)
+  if id > 0 then
+    duty = id
     ShowNotification('You are now ~g~on~s~ duty.')
   else
-    isOnDuty = false
+    duty = id
     ShowNotification('You are now ~r~off~s~ duty.')
   end
 
-  return isOnDuty
+  return duty
 end)
 
 RegisterNetEvent('chat:addProximityMessage', function (serverId, message)
@@ -213,8 +213,8 @@ function CommandWarning(message)
   TriggerEvent('chat:addMessage', { args = { message } })
 end
 
-function IsLocalClientOnDuty()
-  return isOnDuty
+function GetLocalClientDuty()
+  return duty
 end
 
 function ShowNotification(message)

@@ -118,6 +118,10 @@ RegisterFrameworkCommand('staffduty', function (source, args, raw)
   SetDuty(source, duty)
 end, true)
 
+RegisterFrameworkCommand('physgun', function (source, args, raw)
+  TriggerClientEvent('framework:physgunToggle', source)
+end, true)
+
 -- utilities
 
 function SetDuty(source, duty)

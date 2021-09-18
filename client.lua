@@ -1,6 +1,7 @@
 -- vars
 local duty = 0
 local isPointing = false
+local usePhysgun = false
 
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
@@ -36,6 +37,70 @@ Citizen.CreateThread(function()
           SetPedIntoVehicle(ped, vehicle, 0)
           SetVehicleCloseDoorDeferedAction(vehicle, 0)
         end
+      end
+    end
+  end
+end)
+
+-- admin physgun
+Citizen.CreateThread(function()
+  local pickedUp = false
+  local entity
+  while true do
+    Citizen.Wait(0)
+    if usePhysgun then
+      if IsControlJustReleased(0, 24) then
+        if not pickedUp then
+          _, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
+          if IsEntityAPed(entity) and IsPedInAnyVehicle(entity, false) then
+            entity = GetVehiclePedIsIn(entity, false)
+          end
+          if entity and entity > 0 then
+            pickedUp = true
+            local playerCoords = GetEntityCoords(PlayerPedId(), false)
+            local entityCoords = GetEntityCoords(entity, false)
+            local difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
+            SetEntityAlpha(entity, 200)
+            AttachEntityToEntity(entity, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), difference, .0, .0, -78.5, .0, .0, 1, 1, 0, 1, 0, 1)
+          end
+        else
+          pickedUp = false
+          DetachEntity(entity, false, true)
+          SetEntityAlpha(entity, 255)
+        end
+      elseif IsControlJustPressed(0, 73) and DoesEntityExist(entity) then
+        if IsEntityAPed(entity) then
+          DeletePed(entity)
+          if not (DoesEntityExist(entity)) then
+            pickedUp = false
+            ShowNotification("~g~Success: ~s~Ped deleted.")
+          end
+        elseif IsEntityAnObject(entity) then
+          SetEntityAsMissionEntity(entity, true, true)
+          DeleteObject(entity)
+          if not (DoesEntityExist(entity)) then
+            pickedUp = false
+            ShowNotification("~g~Success: ~s~Object deleted.")
+          end
+        elseif IsEntityAVehicle(entity) then
+          SetEntityAsMissionEntity(entity, true, true)
+          DeleteVehicle(entity)
+          if not (DoesEntityExist(entity)) then
+            pickedUp = false
+            ShowNotification("~g~Success: ~s~Vehicle deleted.")
+          end
+        else
+          DeleteEntity(entity)
+          if not (DoesEntityExist(entity)) then
+            pickedUp = false
+            ShowNotification("~g~Success: ~s~Entity deleted.")
+          end
+        end
+      elseif IsControlJustPressed(0, 51) then
+        local playerCoords = GetEntityCoords(PlayerPedId(), false)
+        local entityCoords = GetEntityCoords(entity, false)
+        local difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
+        AttachEntityToEntity(entity, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), difference + .1, .0, .0, -78.5, .0, .0, 1, 1, 0, 1, 0, 1)
       end
     end
   end
@@ -210,6 +275,15 @@ RegisterNetEvent('chat:addProximityMessage', function (serverId, message)
   local client = PlayerId()
   if player == client or GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(client)), GetEntityCoords(GetPlayerPed(player)), true) < Constants.ProximityMessageDistance then
     TriggerEvent('chat:addMessage', message)
+  end
+end)
+
+RegisterNetEvent('framework:physgunToggle', function()
+  usePhysgun = not usePhysgun
+  if usePhysgun then
+    ShowNotification('~y~Admin~s~: Physgun ~g~enabled~s~.')
+  else
+    ShowNotification('~y~Admin~s~: Physgun ~r~disabled~s~.')
   end
 end)
 

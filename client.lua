@@ -29,14 +29,14 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     local ped = GetPlayerPed(-1)
-		if IsPedInAnyVehicle(ped, false) then
+    if IsPedInAnyVehicle(ped, false) then
       local vehicle = GetVehiclePedIsIn(ped, 0)
-			if GetPedInVehicleSeat(vehicle, 0) == ped then
-				if GetIsTaskActive(ped, 165) then
-					SetPedIntoVehicle(ped, vehicle, 0)
-				  SetVehicleCloseDoorDeferedAction(vehicle, 0)
-			  end
-		  end
+      if GetPedInVehicleSeat(vehicle, 0) == ped then
+        if GetIsTaskActive(ped, 165) then
+          SetPedIntoVehicle(ped, vehicle, 0)
+          SetVehicleCloseDoorDeferedAction(vehicle, 0)
+        end
+      end
     end
   end
 end)
@@ -132,7 +132,7 @@ end)
 RegisterFrameworkCommand('hood', function()
   local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
-	  NetworkRequestControlOfEntity(vehicle)
+    NetworkRequestControlOfEntity(vehicle)
     if GetVehicleDoorAngleRatio(vehicle, 4) > 0 then
       SetVehicleDoorShut(vehicle, 4, false)
     else
@@ -144,7 +144,7 @@ end)
 RegisterFrameworkCommand('trunk', function()
   local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
-	  NetworkRequestControlOfEntity(vehicle)
+    NetworkRequestControlOfEntity(vehicle)
     if GetVehicleDoorAngleRatio(vehicle, 5) > 0 then
       SetVehicleDoorShut(vehicle, 5, false)
     else
@@ -160,7 +160,7 @@ RegisterFrameworkCommand('door', function(source, args, raw)
     local doors = GetNumberOfVehicleDoors(vehicle) - 1
     if doors < door then door = doors
     elseif door < 0 then door = 0 end
-	  NetworkRequestControlOfEntity(vehicle)
+    NetworkRequestControlOfEntity(vehicle)
     if GetVehicleDoorAngleRatio(vehicle, door) > 0 then
       SetVehicleDoorShut(vehicle, door, false)
     else

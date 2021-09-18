@@ -10,7 +10,7 @@ Config = {
   },
   ServerNotifications = {
     chatPublic = {
-      GetConvar('framework_ServerNotifications_chatPublic'),
+      GetConvar('framework_ServerNotifications_chatPublic', ''),
       function (source, data)
         local username = GetPlayerName(source)
         if not username then username = 'N/A' end
@@ -25,7 +25,7 @@ Config = {
       end
     },
     chatPrivate = {
-      GetConvar('framework_ServerNotifications_chatPrivate'),
+      GetConvar('framework_ServerNotifications_chatPrivate', ''),
       function (source, data)
         local username = GetPlayerName(source)
         if not username then username = 'N/A' end
@@ -40,7 +40,7 @@ Config = {
       end
     },
     staffPublic = {
-      GetConvar('framework_ServerNotifications_staffPublic'),
+      GetConvar('framework_ServerNotifications_staffPublic', ''),
       function (source, data)
         return {
           username = 'System',
@@ -61,7 +61,7 @@ Config = {
       end
     },
     staffPrivate = {
-      GetConvar('framework_ServerNotifications_staffPrivate'),
+      GetConvar('framework_ServerNotifications_staffPrivate', ''),
       function (source, data)
         return {
           username = 'System',
@@ -82,7 +82,7 @@ Config = {
       end
     },
     serverPublic = {
-      GetConvar('framework_ServerNotifications_serverPublic'),
+      GetConvar('framework_ServerNotifications_serverPublic', ''),
       function (source, data)
         return {
           username = 'System',
@@ -94,7 +94,7 @@ Config = {
       end
     },
     serverPrivate = {
-      GetConvar('framework_ServerNotifications_serverPrivate'),
+      GetConvar('framework_ServerNotifications_serverPrivate', ''),
       function (source, data)
         return {
           username = 'System',

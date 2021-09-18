@@ -18,17 +18,17 @@ end)
 
 -- LEO
 
-RegisterCommand('duty', function (source, args, raw)
+RegisterFrameworkCommand('duty', function (source, args, raw)
   local duty = 1
   if PlayerDutyStub(source).type >= duty then duty = 0 end
   SetDuty(source, duty)
 end, true)
 
-RegisterCommand('onduty', function(source, args, raw)
+RegisterFrameworkCommand('onduty', function(source, args, raw)
   SetDuty(source, 1)
 end, true)
 
-RegisterCommand('offduty', function(source, args, raw)
+RegisterFrameworkCommand('offduty', function(source, args, raw)
   SetDuty(source, 0)
 end, true)
 

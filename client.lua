@@ -169,6 +169,26 @@ RegisterFrameworkCommand('door', function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand('window', function(source, args, raw)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
+  local window = (tonumber(args[1]) or 1) - 1
+  if vehicle and vehicle > 1 then
+    if window > 11 then window = 11
+    elseif window < 0 then window = 0 end
+    local decoratorName = 'WindowRolledDown' .. window
+    if not DecorIsRegisteredAsType(decoratorName, 2) then
+      DecorRegister(decoratorName, 2)
+    end
+    if not DecorGetBool(vehicle, decoratorName) then
+      DecorSetBool(vehicle, decoratorName, true)
+      RollDownWindow(vehicle, window)
+    else
+      DecorSetBool(vehicle, decoratorName, false)
+      RollUpWindow(vehicle, window)
+    end
+  end
+end)
+
 
 -----/
 

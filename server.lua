@@ -8,6 +8,14 @@ RegisterNetEvent('framework:physgunAttachSend', function(serverId, detach)
   TriggerClientEvent('framework:physgunAttach', serverId, source, detach)
 end)
 
+RegisterNetEvent('framework:taserLaserSet', function(state)
+  if state then
+    TriggerClientEvent('framework:taserLaserRender', -1, source)
+  else
+    TriggerClientEvent('framework:taserLaserRenderStop', -1, source)
+  end
+end)
+
 AddEventHandler('playerConnecting', function(name)
   ServerNotification('serverPublic', nil, name .. ' connecting...')
 end)

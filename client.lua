@@ -3,6 +3,8 @@ local duty = 0
 local isPointing = false
 local usePhysgun = false
 local persistentAttach = {}
+local showTaserLaserPlayers = {}
+local taserLaserState = false
 
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
@@ -123,6 +125,34 @@ Citizen.CreateThread(function()
       end
     end
   end
+end)
+
+-- taser laser
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    for serverId in pairs(showTaserLaserPlayers) do
+      local playerPed = GetPlayerPed(GetPlayerFromServerId(serverId))
+      local _, currentWeapon = GetCurrentPedWeapon(playerPed)
+      if currentWeapon == GetHashKey('WEAPON_STUNGUN') then
+        local rot = GetGameplayCamRot()
+        local fixedRotX = (math.pi / 180) * rot.x
+        local fixedRotZ = (math.pi / 180) * rot.z
+        local offset = GetOffsetFromEntityInWorldCoords(GetCurrentPedWeaponEntityIndex(playerPed), .0, .0, .0)
+        local rayHandle = StartShapeTestRay(
+          offset.x, offset.y, offset.z,
+          offset.x + (-math.sin(fixedRotZ) * math.abs(math.cos(fixedRotX))) * 15000,
+          offset.y + (math.cos(fixedRotZ) * math.abs(math.cos(fixedRotX))) * 15000,
+          offset.z + math.sin(fixedRotX) * 15000,
+          -1, playerPed, 1
+        )
+        local _, hit, coords = GetShapeTestResult(rayHandle)
+        if hit == 1 then
+          DrawMarker(28, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, .014, .014, .014, 255, 0, 0, 210, false, false, 2, nil, nil, false)
+        end
+      end
+    end
+  end 
 end)
 
 
@@ -273,6 +303,20 @@ RegisterFrameworkCommand('window', function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand('taserlaser', function(source, args, raw)
+  local _, currentWeapon = GetCurrentPedWeapon(PlayerPedId())
+  if currentWeapon == GetHashKey('WEAPON_STUNGUN') then
+    if taserLaserState then
+      taserLaserState = false
+      ShowNotification('~y~Taser~s~: Laser ~r~deactivated~s~.')
+    else
+      taserLaserState = true
+      ShowNotification('~y~Taser~s~: Laser ~g~activated~s~.')
+    end
+    TriggerServerEvent('framework:taserLaserSet', taserLaserState)
+  end
+end)
+
 
 -----/
 
@@ -312,6 +356,14 @@ RegisterNetEvent('framework:physgunAttach', function(serverId, detach)
   else
     persistentAttach:add(PlayerPedId(), GetPlayerPed(GetPlayerFromServerId(serverId)))
   end
+end)
+
+RegisterNetEvent('framework:taserLaserRender', function(serverId)
+  showTaserLaserPlayers[serverId] = true
+end)
+
+RegisterNetEvent('framework:taserLaserRenderStop', function(serverId)
+  showTaserLaserPlayers[serverId] = nil
 end)
 
 -- util

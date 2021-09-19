@@ -171,6 +171,9 @@ function ServerNotification(type, source, data)
     local webhook = object[1]
     local handler = object[2]
     local message = handler(source, data)
+    if string.sub(webhook, 1, 1) == '\'' or string.sub(webhook, 1, 1) == '"' then
+      webhook = string.sub(webhook, 2, #webhook - 1)
+    end
     if message then
       PerformHttpRequest(webhook, function(code, content)
         if code < 200 or code >= 300 then

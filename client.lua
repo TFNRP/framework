@@ -311,6 +311,7 @@ function persistentAttach:add(entity, target)
   Citizen.CreateThread(function()
     while persistentAttach.entity == entity do
       Citizen.Wait(1)
+      if not NetworkHasControlOfEntity(entity) then NetworkRequestControlOfEntity(entity) end
       AttachEntityToEntity(entity, target, GetPedBoneIndex(target, 28422), persistentAttach.difference, .0, .0, -78.5, .0, .0, true, true, false, true, false, true)
     end
     DetachEntity(entity, true, false)

@@ -46,24 +46,37 @@ end)
 -- admin physgun
 Citizen.CreateThread(function()
   local pickedUp = false
-  local entity
+  local entity, hit
   while true do
     Citizen.Wait(0)
     if usePhysgun then
       DisablePlayerFiring(PlayerId(), true)
       if IsControlJustReleased(0, 229) then
         if not pickedUp then
-          _, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
-          if IsEntityAPed(entity) and IsPedInAnyVehicle(entity, false) then
-            entity = GetVehiclePedIsIn(entity, false)
-          end
-          if entity and entity > 0 then
-            pickedUp = true
-            SetEntityAlpha(entity, 200)
-            if IsEntityAPed(entity) and IsPedAPlayer(entity) then
-              TriggerServerEvent('framework:physgunAttachSend', GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), false)
-            else
-              persistentAttach:add(entity, GetPlayerPed(PlayerId()))
+          local rot = GetGameplayCamRot()
+          local fixedRotX = (math.pi / 180) * rot.x
+          local fixedRotZ = (math.pi / 180) * rot.z
+          local offset = GetOffsetFromEntityInWorldCoords(GetCurrentPedWeaponEntityIndex(GetPlayerPed(-1)), .0, .0, .0)
+          local rayHandle = StartShapeTestRay(
+            offset.x, offset.y, offset.z,
+            offset.x + (-math.sin(fixedRotZ) * math.abs(math.cos(fixedRotX))) * 15000,
+            offset.y + (math.cos(fixedRotZ) * math.abs(math.cos(fixedRotX))) * 15000,
+            offset.z + math.sin(fixedRotX) * 15000,
+            -1, PlayerPedId(), 1
+          )
+          _, hit, _, _, entity = GetShapeTestResult(rayHandle)
+          if hit == 1 and (IsEntityAPed(entity) or IsEntityAVehicle(entity) or IsEntityAnObject(entity)) and DoesEntityExist(entity) then
+            if IsEntityAPed(entity) and IsPedInAnyVehicle(entity, false) then
+              entity = GetVehiclePedIsIn(entity, false)
+            end
+            if entity and entity > 0 then
+              pickedUp = true
+              SetEntityAlpha(entity, 200)
+              if IsEntityAPed(entity) and IsPedAPlayer(entity) then
+                TriggerServerEvent('framework:physgunAttachSend', GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), false)
+              else
+                persistentAttach:add(entity, GetPlayerPed(PlayerId()))
+              end
             end
           end
         else

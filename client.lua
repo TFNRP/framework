@@ -2,6 +2,7 @@
 local duty = 0
 local isPointing = false
 local usePhysgun = false
+local persistentAttach = {}
 
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
@@ -49,7 +50,8 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if usePhysgun then
-      if IsControlJustReleased(0, 24) then
+      DisablePlayerFiring(PlayerId(), true)
+      if IsControlJustReleased(0, 229) then
         if not pickedUp then
           _, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
           if IsEntityAPed(entity) and IsPedInAnyVehicle(entity, false) then
@@ -61,11 +63,19 @@ Citizen.CreateThread(function()
             local entityCoords = GetEntityCoords(entity, false)
             local difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
             SetEntityAlpha(entity, 200)
-            AttachEntityToEntity(entity, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), difference, .0, .0, -78.5, .0, .0, 1, 1, 0, 1, 0, 1)
+            if IsEntityAPed(entity) and IsPedAPlayer(entity) then
+              TriggerServerEvent('framework:physgunAttachSend', GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), false)
+            else
+              persistentAttach:add(entity, GetPlayerPed(PlayerId()))
+            end
           end
         else
           pickedUp = false
-          DetachEntity(entity, false, true)
+          if IsEntityAPed(entity) and IsPedAPlayer(entity) then
+            TriggerServerEvent('framework:physgunAttachSend', GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), true)
+          else
+            persistentAttach:remove()
+          end
           SetEntityAlpha(entity, 255)
         end
       elseif IsControlJustPressed(0, 73) and DoesEntityExist(entity) then
@@ -99,8 +109,7 @@ Citizen.CreateThread(function()
       elseif IsControlJustPressed(0, 51) then
         local playerCoords = GetEntityCoords(PlayerPedId(), false)
         local entityCoords = GetEntityCoords(entity, false)
-        local difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
-        AttachEntityToEntity(entity, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), difference + .1, .0, .0, -78.5, .0, .0, 1, 1, 0, 1, 0, 1)
+        persistentAttach.difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
       end
     end
   end
@@ -287,7 +296,32 @@ RegisterNetEvent('framework:physgunToggle', function()
   end
 end)
 
+RegisterNetEvent('framework:physgunAttach', function(serverId, detach)
+  if detach then
+    persistentAttach:remove()
+  else
+    persistentAttach:add(PlayerPedId(), GetPlayerPed(GetPlayerFromServerId(serverId)))
+  end
+end)
+
 -- util
+
+function persistentAttach:add(entity, target)
+  persistentAttach.entity = entity
+  local entityCoords = GetEntityCoords(entity, false)
+  local targetCoords = GetEntityCoords(target, false)
+  persistentAttach.difference = GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z, targetCoords.x, targetCoords.y, targetCoords.z)
+  Citizen.CreateThread(function()
+    while persistentAttach.entity == entity do
+      Citizen.Wait(1)
+      AttachEntityToEntity(entity, target, GetPedBoneIndex(target, 28422), persistentAttach.difference, .0, .0, -78.5, .0, .0, true, true, false, true, false, true)
+    end
+  end)
+end
+
+function persistentAttach:remove()
+  persistentAttach.entity = nil
+end
 
 function GetVehiclePedIsInOrNear(ped, lastVehicle)
   local vehicle = GetVehiclePedIsIn(ped, lastVehicle)

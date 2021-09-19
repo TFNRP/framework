@@ -4,6 +4,10 @@ PlayersOnDuty = {}
 local lastTweet = nil
 local lastTweeter = nil
 
+RegisterNetEvent('framework:physgunAttachSend', function(serverId, detach)
+  TriggerClientEvent('framework:physgunAttach', serverId, source, detach)
+end)
+
 AddEventHandler('playerConnecting', function(name)
   ServerNotification('serverPublic', nil, name .. ' connecting...')
 end)

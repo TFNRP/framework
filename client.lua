@@ -59,9 +59,6 @@ Citizen.CreateThread(function()
           end
           if entity and entity > 0 then
             pickedUp = true
-            local playerCoords = GetEntityCoords(PlayerPedId(), false)
-            local entityCoords = GetEntityCoords(entity, false)
-            local difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
             SetEntityAlpha(entity, 200)
             if IsEntityAPed(entity) and IsPedAPlayer(entity) then
               TriggerServerEvent('framework:physgunAttachSend', GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), false)

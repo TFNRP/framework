@@ -316,6 +316,7 @@ function persistentAttach:add(entity, target)
       Citizen.Wait(1)
       AttachEntityToEntity(entity, target, GetPedBoneIndex(target, 28422), persistentAttach.difference, .0, .0, -78.5, .0, .0, true, true, false, true, false, true)
     end
+    DetachEntity(entity, true, false)
   end)
 end
 

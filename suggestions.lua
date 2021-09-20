@@ -32,3 +32,6 @@ RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re currently 
 RegisterCommandSuggestion('taserlaser', 'Toggle your taser\'s laser. Best experienced in first-person because bullets shoot from the camera.')
 RegisterCommandSuggestion({ 'heal', 'health' }, 'Set your health. 0 = none (dead), 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.')
 RegisterCommandSuggestion({ 'armour', 'armor' }, 'Set your armour. 0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.')
+RegisterCommandSuggestion({ 'globalme', 'gme', 'globaldo', 'gdo' }, 'Provide information or an action for players further away.', {
+    { name = 'message', help = 'The message you would like to send.' }
+})

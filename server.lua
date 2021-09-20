@@ -76,6 +76,14 @@ RegisterFrameworkCommand({'me', 'do'}, function (source, args, raw)
   })
 end, false)
 
+RegisterFrameworkCommand({ 'globalme', 'gme', 'globaldo', 'gdo' }, function (source, args, raw)
+  local message = table.concat(args, ' ')
+  ServerNotification('chatPublic', source, '[global me]: ' .. message)
+  TriggerClientEvent('chat:addMessage', -1, {
+    args = { '^*^3[Global Me] ^r ' .. GetPlayerDisplayName(source), '^r ' .. message }
+  })
+end, false)
+
 RegisterFrameworkCommand({'ooc', 'global'}, function (source, args, raw)
   local message = table.concat(args, ' ')
   ServerNotification('chatPublic', source, '[ooc]: ' .. message)

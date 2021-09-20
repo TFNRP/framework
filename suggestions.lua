@@ -29,3 +29,4 @@ RegisterCommandSuggestion('trunk', 'Open the trunk of the vehicle you\'re curren
 RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re currently in.', {
     { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
 })
+RegisterCommandSuggestion('taserlaser', 'Toggle your taser\'s laser. Best experienced in first-person because bullets shoot from the camera.')

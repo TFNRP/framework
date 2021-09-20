@@ -240,6 +240,12 @@ RegisterFrameworkCommand({ 'clean', 'wash' }, function()
   local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
   if vehicle and vehicle > 1 then
     SetVehicleDirtLevel(vehicle, 0)
+  else
+    local ped = PlayerPedId()
+    ClearPedBloodDamage(ped)
+    ClearPedWetness(ped)
+    ClearPedEnvDirt(ped)
+    ResetPedVisibleDamage(ped)
   end
 end)
 

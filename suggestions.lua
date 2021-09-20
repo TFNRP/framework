@@ -30,3 +30,5 @@ RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re currently 
     { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
 })
 RegisterCommandSuggestion('taserlaser', 'Toggle your taser\'s laser. Best experienced in first-person because bullets shoot from the camera.')
+RegisterCommandSuggestion('heal', 'Set your health. 0 = none (dead), 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.')
+RegisterCommandSuggestion('armour', 'Set your armour. 0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.')

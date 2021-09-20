@@ -323,6 +323,24 @@ RegisterFrameworkCommand('taserlaser', function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand('heal', function(source, args, raw)
+  local amount = (tonumber(args[1]) or 5) * 40
+  if not IsPlayerDead(PlayerId()) then
+    if amount > 200 then amount = 200
+    elseif amount < 0 then amount = 0 end
+    SetEntityHealth(PlayerPedId(), amount)
+  end
+end)
+
+RegisterFrameworkCommand('armour', function(source, args, raw)
+  local amount = (tonumber(args[1]) or 5) * 20
+  if not IsPlayerDead(PlayerId()) then
+    if amount > 100 then amount = 100
+    elseif amount < 0 then amount = 0 end
+    SetPedArmour(PlayerPedId(), amount)
+  end
+end)
+
 
 -----/
 

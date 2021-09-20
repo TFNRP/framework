@@ -22,11 +22,11 @@ RegisterCommandSuggestion({ 'dv', 'delveh' }, 'Delete the nearest vehicle.')
 RegisterCommandSuggestion('duty', 'Toggle on/off duty.')
 RegisterCommandSuggestion('offduty', 'Disable patrolman duties.')
 RegisterCommandSuggestion('onduty', 'Enable patrolman duties.')
-RegisterCommandSuggestion({ 'clean', 'wash' }, 'Clean the vehicle you\'re currently in.')
-RegisterCommandSuggestion({ 'fix', 'repair' }, 'Fix the vehicle you\'re currently in.')
-RegisterCommandSuggestion('hood', 'Open the hood of the vehicle you\'re currently in.')
-RegisterCommandSuggestion('trunk', 'Open the trunk of the vehicle you\'re currently in.')
-RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re currently in.', {
+RegisterCommandSuggestion({ 'clean', 'wash' }, 'Clean the vehicle you\'re near.')
+RegisterCommandSuggestion({ 'fix', 'repair' }, 'Fix the vehicle you\'re near.')
+RegisterCommandSuggestion('hood', 'Open the hood of the vehicle you\'re near.')
+RegisterCommandSuggestion('trunk', 'Open the trunk of the vehicle you\'re near.')
+RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re near.', {
     { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
 })
 RegisterCommandSuggestion('taserlaser', 'Toggle your taser\'s laser. Best experienced in first-person because bullets shoot from the camera.')

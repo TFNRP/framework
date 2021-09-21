@@ -9,9 +9,9 @@ local taserLaserState = false
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
   while true do
-    SetWeaponDamageModifierThisFrame(GetHashKey("WEAPON_STUNGUN"), 0.1) 
+    SetWeaponDamageModifierThisFrame(GetHashKey('WEAPON_STUNGUN'), .1)
     Citizen.Wait(0)
-    SetWeaponDamageModifierThisFrame(GetHashKey("WEAPON_NIGHTSTICK"), 0.1) 
+    SetWeaponDamageModifierThisFrame(GetHashKey('WEAPON_NIGHTSTICK'), .1)
     Citizen.Wait(0)
   end
 end)
@@ -67,7 +67,13 @@ Citizen.CreateThread(function()
             -1, PlayerPedId(), 1
           )
           _, hit, _, _, entity = GetShapeTestResult(rayHandle)
-          if hit == 1 and (IsEntityAPed(entity) or IsEntityAVehicle(entity) or IsEntityAnObject(entity)) and DoesEntityExist(entity) then
+          if
+            hit == 1 and (
+              IsEntityAPed(entity) or
+              IsEntityAVehicle(entity) or
+              IsEntityAnObject(entity)
+            ) and DoesEntityExist(entity)
+          then
             if IsEntityAPed(entity) and IsPedInAnyVehicle(entity, false) then
               entity = GetVehiclePedIsIn(entity, false)
             end
@@ -75,7 +81,10 @@ Citizen.CreateThread(function()
               pickedUp = true
               SetEntityAlpha(entity, 200)
               if IsEntityAPed(entity) and IsPedAPlayer(entity) then
-                TriggerServerEvent('framework:physgunAttachSend', GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), false)
+                TriggerServerEvent(
+                  'framework:physgunAttachSend',
+                  GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity)), false
+                )
               else
                 persistentAttach:add(entity, GetPlayerPed(PlayerId()))
               end
@@ -95,33 +104,35 @@ Citizen.CreateThread(function()
           DeletePed(entity)
           if not (DoesEntityExist(entity)) then
             pickedUp = false
-            ShowNotification("~g~Success: ~s~Ped deleted.")
+            ShowNotification('~g~Success: ~s~Ped deleted.')
           end
         elseif IsEntityAnObject(entity) then
           SetEntityAsMissionEntity(entity, true, true)
           DeleteObject(entity)
           if not (DoesEntityExist(entity)) then
             pickedUp = false
-            ShowNotification("~g~Success: ~s~Object deleted.")
+            ShowNotification('~g~Success: ~s~Object deleted.')
           end
         elseif IsEntityAVehicle(entity) then
           SetEntityAsMissionEntity(entity, true, true)
           DeleteVehicle(entity)
           if not (DoesEntityExist(entity)) then
             pickedUp = false
-            ShowNotification("~g~Success: ~s~Vehicle deleted.")
+            ShowNotification('~g~Success: ~s~Vehicle deleted.')
           end
         else
           DeleteEntity(entity)
           if not (DoesEntityExist(entity)) then
             pickedUp = false
-            ShowNotification("~g~Success: ~s~Entity deleted.")
+            ShowNotification('~g~Success: ~s~Entity deleted.')
           end
         end
       elseif IsControlJustPressed(0, 51) then
         local playerCoords = GetEntityCoords(PlayerPedId(), false)
         local entityCoords = GetEntityCoords(entity, false)
-        persistentAttach.difference = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z)
+        persistentAttach.difference = GetDistanceBetweenCoords(
+          playerCoords.x, playerCoords.y, playerCoords.z, entityCoords.x, entityCoords.y, entityCoords.z
+        )
       end
     end
   end
@@ -148,7 +159,9 @@ Citizen.CreateThread(function()
         )
         local _, hit, coords = GetShapeTestResult(rayHandle)
         if hit == 1 then
-          DrawMarker(28, coords.x, coords.y, coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, .014, .014, .014, 255, 0, 0, 210, false, false, 2, nil, nil, false)
+          DrawMarker(
+            28, coords.x, coords.y, coords.z, .0, .0, .0, .0, .0, .0, .014, .014, .014, 255, 0, 0, 210, false, false, 2, nil, nil, false
+          )
         end
       end
     end
@@ -160,8 +173,8 @@ end)
 
 
 RegisterFrameworkCommand('point', function()
-  RequestAnimDict("anim@mp_point")
-  while not HasAnimDictLoaded("anim@mp_point") do
+  RequestAnimDict('anim@mp_point')
+  while not HasAnimDictLoaded('anim@mp_point') do
     Wait(0)
   end
 
@@ -171,7 +184,7 @@ RegisterFrameworkCommand('point', function()
   else
     local ped = GetPlayerPed(-1);
     Citizen.Wait(10)
-    TaskMoveNetworkByName(ped, "task_mp_pointing", 0.5, 0, "anim@mp_point", 24)
+    TaskMoveNetworkByName(ped, 'task_mp_pointing', .5, 0, 'anim@mp_point', 24)
     isPointing = true
   end
 end, false)
@@ -197,7 +210,11 @@ RegisterFrameworkCommand({ 'pm', 'dm', 'message' }, function (source, args, raw)
     return CommandWarning('You PM\'d yourself. Wait, you can\'t.')
   end
 
-  TriggerServerEvent('chat:addPrivateMessage', serverId, { args = { string.format(Format.PM, GetPlayerName(player), 'You'), argMessage } })
+  TriggerServerEvent('chat:addPrivateMessage', serverId, {
+    args = {
+      string.format(Format.PM, GetPlayerName(player), 'You'), argMessage
+    }
+  })
   TriggerEvent('chat:addMessage', { args = { string.format(Format.PM, 'You', GetPlayerName(player)), argMessage } })
 end, false)
 
@@ -209,21 +226,21 @@ RegisterFrameworkCommand('discord', function()
   })
 end, false)
 
-RegisterFrameworkCommand({'dv', 'delveh'}, function()
+RegisterFrameworkCommand({ 'dv', 'delveh' }, function()
   local ped = GetPlayerPed(-1)
   local vehicle = GetVehiclePedIsInOrNear(ped, false)
   if vehicle and vehicle > 1 then
     if IsPedSittingInVehicle(ped, vehicle) and not GetPedInVehicleSeat(vehicle, -1) == ped then
-      ShowNotification("~r~Error: ~s~You must be the driver of the vehicle.")
+      ShowNotification('~r~Error: ~s~You must be the driver of the vehicle.')
     else
       SetEntityAsMissionEntity(vehicle, true, true)
       DeleteVehicle(vehicle)
       if not (DoesEntityExist(vehicle)) then
-        ShowNotification("~g~Success: ~s~Vehicle deleted.")
+        ShowNotification('~g~Success: ~s~Vehicle deleted.')
       end
     end
   else
-    ShowNotification("~r~Error: ~w~You must be close to or in a vehicle.")
+    ShowNotification('~r~Error: ~w~You must be close to or in a vehicle.')
   end
 end)
 
@@ -360,7 +377,11 @@ end)
 RegisterNetEvent('chat:addProximityMessage', function (serverId, message)
   local player = GetPlayerFromServerId(serverId)
   local client = PlayerId()
-  if player == client or GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(client)), GetEntityCoords(GetPlayerPed(player)), true) < Constants.ProximityMessageDistance then
+  if
+    player == client or GetDistanceBetweenCoords(
+      GetEntityCoords(GetPlayerPed(client)), GetEntityCoords(GetPlayerPed(player)), true
+    ) < Constants.ProximityMessageDistance
+  then
     TriggerEvent('chat:addMessage', message)
   end
 end)
@@ -396,12 +417,17 @@ function persistentAttach:add(entity, target)
   persistentAttach.entity = entity
   local entityCoords = GetEntityCoords(entity, false)
   local targetCoords = GetEntityCoords(target, false)
-  persistentAttach.difference = GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z, targetCoords.x, targetCoords.y, targetCoords.z)
+  persistentAttach.difference = GetDistanceBetweenCoords(
+    entityCoords.x, entityCoords.y, entityCoords.z, targetCoords.x, targetCoords.y, targetCoords.z
+  )
   Citizen.CreateThread(function()
     while persistentAttach.entity == entity do
       Citizen.Wait(1)
       if not NetworkHasControlOfEntity(entity) then NetworkRequestControlOfEntity(entity) end
-      AttachEntityToEntity(entity, target, GetPedBoneIndex(target, 28422), persistentAttach.difference, .0, .0, -78.5, .0, .0, true, true, false, true, false, true)
+      AttachEntityToEntity(
+        entity, target, GetPedBoneIndex(target, 28422), persistentAttach.difference, .0, .0, -78.5, .0, .0, true, true, false, true,
+        false, true
+      )
     end
     DetachEntity(entity, true, false)
   end)
@@ -435,7 +461,7 @@ function GetLocalClientDuty()
 end
 
 function ShowNotification(message)
-  SetNotificationTextEntry("STRING")
+  SetNotificationTextEntry('STRING')
   AddTextComponentSubstringPlayerName(message)
   DrawNotification(true, true)
 end

@@ -106,4 +106,49 @@ Config = {
       end
     },
   },
+  Reminders = {
+    Interval = 10,
+    Messages = {
+      'Join our ^6Discord^7 server: ^5^_https://discord.gg/Hfxz3Aj',
+      'Join our ^6Discord^7 server: ^3^_/discord',
+      'Make sure you\'re up to date with the ^3^_/rules',
+      'Make sure to read the rules on our ^6Discord^7: ^3^_/rules',
+      'Want to become an ^4LEO^7 or ^1Fire^7/^1EMS^7? Get ^3whitelisted^7 by asking a ^5moderator^7 or joining the ^6Discord^7 server: ^3^_/discord',
+      'Unsure about keybinds? Need help getting started? Use the ^3^_/help^0^r command!',
+      'The server uses ^6OneSync Infinity^7, so you can only see ^3nearby^7 players.',
+      function()
+        local admins = {}
+        for _, player in ipairs(GetPlayers()) do
+          for _, arr in ipairs({
+            { 'prefix.admin', '~r~' },
+            { 'prefix.moderator', '~g~' },
+          }) do
+            if IsPlayerAceAllowed(player, arr[1]) then
+              table.insert(admins, arr[2] .. (GetPlayerName(player) or 'Someone') .. '~s~')
+              break
+            end
+          end
+        end
+
+        local str = ''
+        for i, name in ipairs(admins) do
+          if i == #admins then
+            str = name
+          else
+            str = name .. ', '
+          end
+        end
+        if #admins == 0 then
+          return 'There are currently 0 moderators online.'
+        else
+          return 'There are currently ' .. #admins .. ' moderators online: ' .. str
+        end
+      end,
+      function()
+        if #GetPlayers() <= 3 then
+          return "Looks like not many people are online. You can join the ^6Discord^7 server to be notified when more people are on: ^5^_/discord^7"
+        end
+      end
+    },
+  },
 }

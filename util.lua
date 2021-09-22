@@ -1,6 +1,7 @@
 Constants = {
   ProximityMessageDistance = 30,
   DiscordInvite = 'https://discord.gg/Hfxz3Aj',
+  SystemPrefix = '^3^*[System]',
 }
 
 Format = {

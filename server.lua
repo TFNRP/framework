@@ -173,6 +173,61 @@ RegisterFrameworkCommand({ 'rt', 'retweet' }, function (source, args, raw)
   })
 end, false)
 
+-- allows you to do `reminders_add "My reminder"` in server.cfg
+RegisterFrameworkCommand("reminders_add", function(source, args, raw)
+	if args[1] and (source == 0 or IsPlayerAceAllowed(source, 'server.reminders.add')) then
+		local text = string.gsub(raw, 'reminders_add ', '')
+    if (string.sub(text, 1, 1) == '\'' and string.sub(text, #text, #text) == '\'') or (string.sub(text, 1, 1) == '"' and string.sub(text, #text, #text) == '"') then
+      text = string.sub(text, 2, #text - 1)
+    end
+
+		table.insert(Config.Reminders.Messages, text)
+	end
+end, true)
+
+RegisterFrameworkCommand("reminders_remove", function(source, args, raw)
+	if args[1] and (source == 0 or IsPlayerAceAllowed(source, 'server.reminders.remove')) then
+    local index = tonumber(args[1]) or #Config.Reminders.Messages
+    if index then
+      Config.Reminders.Messages[index] = nil
+    end
+	end
+end, true)
+
+Citizen.CreateThread(function()
+  local lastIndex -- the last reminder used
+  if #Config.Reminders.Messages > 2 then
+    while true do
+      local amount = GetConvarInt('reminders_interval', Config.Reminders.Interval)
+      local prefix = GetConvar('reminders_prefix', Constants.SystemPrefix)
+      if amount <= 0 then amount = 5 end
+      local amount = amount * 6e2
+      Citizen.Wait(amount)
+      if #Config.Reminders.Messages > 0 then
+        local index
+        local reminder
+        repeat
+          repeat
+            index = math.random(#Config.Reminders.Messages)
+          until index ~= lastIndex or #Config.Reminders.Messages <= 1
+          reminder = Config.Reminders.Messages[index]
+          if type(reminder) == 'function' then
+            reminder = reminder()
+          end
+        until reminder
+        lastIndex = index
+
+        local args = { reminder }
+        if prefix then table.insert(args, 1, prefix) end
+        TriggerClientEvent('chat:addMessage', -1, {
+          color = true,
+          args = args,
+        })
+      end
+    end
+  end
+end)
+
 -- staff
 
 RegisterFrameworkCommand('staffduty', function (source, args, raw)

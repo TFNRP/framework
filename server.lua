@@ -55,7 +55,7 @@ AddEventHandler('chatMessage', function(source, name, message)
     if string.sub(message, 1, 1) == '/' then
       TriggerClientEvent('chat:addMessage', source, {
         args = {
-          '^3^*[System]',
+          Constants.SystemPrefix,
           'Command "' .. message .. '" does not exist.'
         }
       })

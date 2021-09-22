@@ -205,6 +205,24 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- set players in vehicle shootable
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = PlayerPedId()
+    if IsPedInAnyVehicle(ped) then
+      local veh = GetVehiclePedIsIn(ped)
+      local seats = GetVehicleModelNumberOfSeats(veh)
+      for i = 1, seats do
+        local vehPed = GetPedInVehicleSeat(veh, i - 2)
+        if vehPed ~= 0 then
+          SetPedCanBeShotInVehicle(vehPed, true)
+        end
+      end
+    end
+  end
+end)
+
 
 -- commands
 

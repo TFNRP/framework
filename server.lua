@@ -201,7 +201,7 @@ Citizen.CreateThread(function()
       local amount = GetConvarInt('reminders_interval', Config.Reminders.Interval)
       local prefix = GetConvar('reminders_prefix', Constants.SystemPrefix)
       if amount <= 0 then amount = 5 end
-      local amount = amount * 6e2
+      local amount = amount * 6e4
       Citizen.Wait(amount)
       if #Config.Reminders.Messages > 0 then
         local index

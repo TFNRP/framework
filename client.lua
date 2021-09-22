@@ -168,6 +168,43 @@ Citizen.CreateThread(function()
   end 
 end)
 
+-- synchronise vehicle weapon
+--- Automatically pulls out the last weapon the player selected when in a vehicle.  
+--- Will not automatically pull out the last weapon if the player entered the vehicle with a large weapon.  
+Citizen.CreateThread(function()
+  local lastHash
+  local lastNotInVehicle = true
+  local lastNotInVehicleHash
+  local switchedWeapon
+  while true do
+    Citizen.Wait(1)
+    local ped = PlayerPedId()
+    if IsPedInAnyVehicle(ped) then
+      if lastNotInVehicle then
+        SetCurrentPedWeapon(ped, lastNotInVehicleHash, true)
+        lastHash = lastNotInVehicleHash
+      else
+        local _, hash = GetCurrentPedWeapon(ped)
+        if hash ~= lastHash then
+          Citizen.Wait(1)
+          switchedWeapon = true
+          SetCurrentPedWeapon(ped, hash, true)
+          lastHash = hash
+        end
+      end
+      lastNotInVehicle = false
+    else
+      if not lastNotInVehicle and lastNotInVehicleHash ~= GetHashKey('WEAPON_UNARMED') and (not CanUseWeaponOnParachute(lastNotInVehicleHash) or not switchedWeapon) then
+        SetCurrentPedWeapon(ped, lastNotInVehicleHash, true)
+      end
+      _, lastNotInVehicleHash = GetCurrentPedWeapon(ped)
+      switchedWeapon = false
+      lastNotInVehicle = true
+    end
+    GetCurrentPedVehicleWeapon(ped)
+  end
+end)
+
 
 -- commands
 

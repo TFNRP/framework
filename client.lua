@@ -519,6 +519,20 @@ RegisterNetEvent('framework:taserLaserRenderStop', function(serverId)
   showTaserLaserPlayers[serverId] = nil
 end)
 
+RegisterNetEvent('framework:printCurrentVehicleName', function(serverId)
+  local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), true)
+  local code = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))
+  print(code)
+  exports.copyutil:Copy(code)
+  TriggerEvent('chat:addMessage', {
+    color = true,
+    args = {
+      Constants.SystemPrefix,
+      '(Copied): ' .. code
+    },
+  })
+end)
+
 -- util
 
 function persistentAttach:add(entity, target)

@@ -253,6 +253,10 @@ RegisterFrameworkCommand('physgun', function (source, args, raw)
   TriggerClientEvent('framework:physgunToggle', source)
 end, true)
 
+RegisterFrameworkCommand('spawncode', function (source, args, raw)
+  TriggerClientEvent('framework:printCurrentVehicleName', source)
+end, true)
+
 -- utilities
 
 function SetDuty(source, duty)

@@ -342,6 +342,8 @@ RegisterFrameworkCommand('hood', function()
       SetVehicleDoorShut(vehicle, 4, false)
     else
       SetVehicleDoorOpen(vehicle, 4, false, false)
+      Wait(1e3)
+      SetVehicleDoorOpen(vehicle, 4, true, false)
     end
   end
 end)
@@ -354,6 +356,8 @@ RegisterFrameworkCommand('trunk', function()
       SetVehicleDoorShut(vehicle, 5, false)
     else
       SetVehicleDoorOpen(vehicle, 5, false, false)
+      Wait(1e3)
+      SetVehicleDoorOpen(vehicle, 5, true, false)
     end
   end
 end)
@@ -370,6 +374,8 @@ RegisterFrameworkCommand('door', function(source, args, raw)
       SetVehicleDoorShut(vehicle, door, false)
     else
       SetVehicleDoorOpen(vehicle, door, false, false)
+      Wait(1e3)
+      SetVehicleDoorOpen(vehicle, door, true, false)
     end
   end
 end)

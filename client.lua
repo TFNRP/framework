@@ -5,6 +5,7 @@ local usePhysgun = false
 local persistentAttach = {}
 local showTaserLaserPlayers = {}
 local taserLaserState = false
+local isCrouching = false
 
 -- a short welcome message when they join
 if GetConvar('frameworkRestarted') ~= 'true' then
@@ -422,6 +423,38 @@ RegisterFrameworkCommand({ 'armour', 'armor' }, function(source, args, raw)
     if amount > 100 then amount = 100
     elseif amount < 0 then amount = 0 end
     SetPedArmour(PlayerPedId(), amount)
+  end
+end)
+
+RegisterKeyMapping('crouch', 'Crouch down to your knees', 'keyboard', 'lcontrol')
+RegisterKeyMapping('crouch', 'Crouch down to your knees', 'keyboard', 'lcontrol')
+RegisterFrameworkCommand({ 'crouch', 'cr' }, function(source, args, raw)
+  DisableControlAction(0, 36, true)
+  local ped = PlayerPedId()
+  if DoesEntityExist(ped) and not IsEntityDead(ped) and not IsPedInAnyVehicle(ped) then
+    RequestAnimSet('move_ped_crouched')
+    while not HasAnimSetLoaded('move_ped_crouched') do
+      Citizen.Wait(50)
+    end
+
+    SetPedStealthMovement(ped, 0)
+    if isCrouching then
+      ResetPedMovementClipset(ped, .2)
+      isCrouching = false
+    else
+      SetPedMovementClipset(ped, 'move_ped_crouched', .2)
+      isCrouching = true
+    end
+  end
+end)
+
+RegisterKeyMapping('stealth', 'Toggle stealth mode', 'keyboard', 'rcontrol')
+RegisterFrameworkCommand({ 'stealth', 'duck' }, function(source, args, raw)
+  local ped = PlayerPedId()
+  if GetPedStealthMovement(ped) == 1 then
+    SetPedStealthMovement(ped, 0)
+  else
+    SetPedStealthMovement(ped, 'DEFAULT_ACTION')
   end
 end)
 

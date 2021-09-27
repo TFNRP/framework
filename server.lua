@@ -4,6 +4,19 @@ PlayersOnDuty = {}
 local lastTweet = nil
 local lastTweeter = nil
 
+AddEventHandler('onResourceStop', function(resource)
+  if (GetCurrentResourceName() == resource) then
+    SetConvarReplicated('frameworkRestarted', 'true')
+  end
+end)
+
+if GetConvarInt('frameworkRestarted', 0) == 1 then
+  Citizen.CreateThread(function()
+    Citizen.Wait(1e3)
+    SetConvarReplicated('frameworkRestarted', 'true')
+  end)
+end
+
 RegisterNetEvent('framework:physgunAttachSend', function(serverId, detach)
   TriggerClientEvent('framework:physgunAttach', serverId, source, detach)
 end)

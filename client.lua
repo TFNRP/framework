@@ -6,6 +6,18 @@ local persistentAttach = {}
 local showTaserLaserPlayers = {}
 local taserLaserState = false
 
+-- a short welcome message when they join
+if GetConvar('frameworkRestarted') ~= 'true' then
+  TriggerEvent('chat:addMessage', {
+    color = true,
+    args = {
+      Constants.SystemPrefix,
+      'Welcome ' .. GetPlayerName(PlayerId()) ..
+      '^0^r^*! Please make sure you\'re in the ^3^_/discord^0^r^* server to get started or for help.'
+    },
+  })
+end
+
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
   while true do

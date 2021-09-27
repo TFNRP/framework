@@ -439,10 +439,18 @@ RegisterFrameworkCommand({ 'crouch', 'cr' }, function(source, args, raw)
 
     SetPedStealthMovement(ped, 0)
     if isCrouching then
-      ResetPedMovementClipset(ped, .2)
+      if IsControlPressed(0, 21) then
+        ResetPedMovementClipset(ped, .2)
+      else
+        ResetPedMovementClipset(ped, .3)
+      end
       isCrouching = false
     else
-      SetPedMovementClipset(ped, 'move_ped_crouched', .2)
+      if IsControlPressed(0, 21) then
+        SetPedMovementClipset(ped, 'move_ped_crouched', .2)
+      else
+        SetPedMovementClipset(ped, 'move_ped_crouched', .3)
+      end
       isCrouching = true
     end
   end

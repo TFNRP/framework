@@ -133,9 +133,9 @@ Config = {
         local str = ''
         for i, name in ipairs(admins) do
           if i == #admins then
-            str = name
+            str = str .. name
           else
-            str = name .. ', '
+            str = str .. name .. ', '
           end
         end
         if #admins == 0 then

@@ -6,6 +6,7 @@ local persistentAttach = {}
 local showTaserLaserPlayers = {}
 local taserLaserState = false
 local isCrouching = false
+local hideHud = false
 
 -- a short welcome message when they join
 if GetConvar('frameworkRestarted') ~= 'true' then
@@ -231,6 +232,18 @@ Citizen.CreateThread(function()
         if vehPed ~= 0 then
           SetPedCanBeShotInVehicle(vehPed, true)
         end
+      end
+    end
+  end
+end)
+
+-- hide the hud
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    if hideHud then
+      for i = 1, 22 do
+        HideHudComponentThisFrame(i)
       end
     end
   end
@@ -469,6 +482,16 @@ RegisterFrameworkCommand({ 'stealth', 'duck' }, function(source, args, raw)
     SetPedStealthMovement(ped, 0)
   else
     SetPedStealthMovement(ped, 'DEFAULT_ACTION')
+  end
+end)
+
+RegisterFrameworkCommand('hud', function(source, args, raw)
+  if hideHud then
+    ShowNotification('~y~HUD~s~ now ~g~visible~s~.')
+    hideHud = false
+  else
+    ShowNotification('~y~HUD~s~ now ~r~hidden~s~.')
+    hideHud = true
   end
 end)
 

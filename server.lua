@@ -45,7 +45,7 @@ end)
 
 RegisterFrameworkCommand('duty', function (source, args, raw)
   local duty = 1
-  if PlayerDutyStub(source).type >= duty then duty = 0 end
+  if GetPlayerDuty(source).type >= duty then duty = 0 end
   SetDuty(source, duty)
 end, true)
 
@@ -245,7 +245,7 @@ end)
 
 RegisterFrameworkCommand('staffduty', function (source, args, raw)
   local duty = 2
-  if PlayerDutyStub(source).type >= duty then duty = 0 end
+  if GetPlayerDuty(source).type >= duty then duty = 0 end
   SetDuty(source, duty)
 end, true)
 
@@ -260,7 +260,7 @@ end, true)
 -- utilities
 
 function SetDuty(source, duty)
-  local lastDuty = PlayersOnDuty[source] or PlayerDutyStub()
+  local lastDuty = GetPlayerDuty(source)
   local handlers = {
     {
       nil,
@@ -302,7 +302,7 @@ function SetDuty(source, duty)
   end
   local handler = handlers[lastDuty.type + 1]
   if handler then
-    local subHandler = handler[PlayerDutyStub(source).type + 1]
+    local subHandler = handler[GetPlayerDuty(source).type + 1]
     if subHandler then subHandler() end
   end
 end
@@ -328,7 +328,7 @@ function ServerNotification(type, source, data)
   end
 end
 
-function PlayerDutyStub(player)
+function GetPlayerDuty(player)
   return PlayersOnDuty[player] or {
     type = 0
   }

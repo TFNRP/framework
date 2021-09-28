@@ -258,6 +258,31 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- sticky wheels (keeps them in same position)
+Citizen.CreateThread(function()
+  local vehicle
+  local angle
+  while true do
+    Citizen.Wait(1)
+    local ped = PlayerPedId()
+    if IsPedInAnyVehicle(ped) then
+      vehicle = GetVehiclePedIsIn(ped)
+      local current = GetVehicleSteeringAngle(vehicle)
+      if current > 20 then
+        angle = 40
+      elseif current < -20 then
+        angle = -40
+      elseif current > 5 or current < -5 then
+        angle = current
+      end
+    end
+
+    if vehicle and DoesEntityExist(vehicle) and (IsPedOnFoot(ped) or IsPedStopped(ped)) then
+      SetVehicleSteeringAngle(angle)
+    end
+  end
+end)
+
 
 -- commands
 

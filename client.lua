@@ -529,6 +529,15 @@ RegisterFrameworkCommand('hud', function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand({ 'engine', 'eng' }, function(source, args, raw)
+  local ped = PlayerPedId()
+  if IsPedInAnyVehicle(ped) then
+    local vehicle = GetVehiclePedIsIn(ped)
+    local on = GetIsVehicleEngineRunning(vehicle)
+    SetVehicleEngineOn(vehicle, not on, false, true)
+  end
+end)
+
 
 -----/
 

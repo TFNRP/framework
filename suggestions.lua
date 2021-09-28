@@ -39,3 +39,4 @@ RegisterCommandSuggestion({ 'armour', 'armor' }, 'Set your armour.', {
 RegisterCommandSuggestion({ 'globalme', 'gme', 'globaldo', 'gdo' }, 'Provide information or an action for players further away.', {
     { name = 'message', help = 'The message you would like to send.' }
 })
+RegisterCommandSuggestion({ 'engine', 'eng' }, 'Toggle the engine of the vehicle you\'re currently in.')

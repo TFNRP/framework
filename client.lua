@@ -249,6 +249,15 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- reduce the traffic and crowd density
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1) -- wait a tick
+    SetPedDensityMultiplierThisFrame(.5)
+    SetVehicleDensityMultiplierThisFrame(.55)
+  end
+end)
+
 
 -- commands
 

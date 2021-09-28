@@ -538,6 +538,24 @@ RegisterFrameworkCommand({ 'engine', 'eng' }, function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand({ 'handsup', 'hu' }, function(source, args, raw)
+  local ped = PlayerPedId()
+  if DoesEntityExist(ped) and not IsEntityDead(ped) then
+    Citizen.CreateThread(function()
+      RequestAnimDict('random@getawaydriver')
+      while not HasAnimDictLoaded('random@getawaydriver') do
+        Citizen.Wait(50)
+      end
+
+      if IsEntityPlayingAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 3) then
+        ClearPedSecondaryTask(ped)
+      else
+        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 8.0, -8, -1, 50, 0, false, false, false)
+      end
+    end)
+  end
+end)
+
 
 -----/
 

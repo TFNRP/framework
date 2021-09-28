@@ -40,3 +40,4 @@ RegisterCommandSuggestion({ 'globalme', 'gme', 'globaldo', 'gdo' }, 'Provide inf
     { name = 'message', help = 'The message you would like to send.' }
 })
 RegisterCommandSuggestion({ 'engine', 'eng' }, 'Toggle the engine of the vehicle you\'re currently in.')
+RegisterCommandSuggestion({ 'handsup', 'hu' }, 'Put your hands in the air.')

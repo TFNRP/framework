@@ -21,7 +21,7 @@ server_script {
     'server.lua',
 }
 server_export {
-    'IsOnDuty',
+    'GetPlayerDuty',
     'RegisterFrameworkCommand',
 }
 dependency 'copyutil' -- https://github.com/MrGriefs/copyutil

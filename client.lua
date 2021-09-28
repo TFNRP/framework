@@ -241,6 +241,7 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
+    HideHudComponentThisFrame(14)
     if hideHud then
       for i = 1, 22 do
         HideHudComponentThisFrame(i)

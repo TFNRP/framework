@@ -579,6 +579,18 @@ RegisterFrameworkCommand({ 'handsupkneel', 'huk' }, function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand('radioloud', function(source, args, raw)
+  local ped = PlayerPedId()
+  if IsPedInAnyVehicle(ped) then
+    local vehicle = GetVehiclePedIsIn(ped)
+    if IsVehicleRadioLoud(vehicle) then
+      SetVehicleRadioLoud(vehicle, false)
+    else
+      SetVehicleRadioLoud(vehicle, true)
+    end
+  end
+end)
+
 
 -----/
 

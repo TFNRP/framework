@@ -270,16 +270,16 @@ Citizen.CreateThread(function()
       vehicle = GetVehiclePedIsIn(ped)
       local current = GetVehicleSteeringAngle(vehicle)
       if current > 20 then
-        angle = 40
+        angle = 40.0
       elseif current < -20 then
-        angle = -40
+        angle = -40.0
       elseif current > 5 or current < -5 then
         angle = current
       end
     end
 
-    if vehicle and DoesEntityExist(vehicle) and (IsPedOnFoot(ped) or IsPedStopped(ped)) then
-      SetVehicleSteeringAngle(angle)
+    if angle and vehicle and DoesEntityExist(vehicle) and (IsPedOnFoot(ped) or IsPedStopped(ped)) then
+      SetVehicleSteeringAngle(vehicle, angle)
     end
   end
 end)
@@ -545,6 +545,28 @@ RegisterFrameworkCommand({ 'handsup', 'hu' }, function(source, args, raw)
     Citizen.CreateThread(function()
       RequestAnimDict('random@getawaydriver')
       while not HasAnimDictLoaded('random@getawaydriver') do
+        Citizen.Wait(50)
+      end
+
+      if IsEntityPlayingAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 3) then
+        ClearPedSecondaryTask(ped)
+      else
+        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 8.0, -8, -1, 50, 0, false, false, false)
+      end
+    end)
+  end
+end)
+
+RegisterFrameworkCommand({ 'handsupkneel', 'huk' }, function(source, args, raw)
+  local ped = PlayerPedId()
+  if DoesEntityExist(ped) and not IsEntityDead(ped) then
+    Citizen.CreateThread(function()
+      RequestAnimDict('random@getawaydriver')
+      while not HasAnimDictLoaded('random@getawaydriver') do
+        Citizen.Wait(50)
+      end
+      RequestAnimDict('mp_arresting')
+      while not HasAnimDictLoaded('mp_arresting') do
         Citizen.Wait(50)
       end
 

@@ -289,6 +289,22 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- simple gas mask
+Citizen.CreateThread(function()
+  local last
+  while true do
+    Citizen.Wait(100)
+    local ped = PlayerPedId()
+    -- 46 is the id of gasmak variation
+    current = GetPedDrawableVariation(ped, 1) == 46
+    if current ~= last then
+      local _, a, b, c, d, e, f = GetEntityProofs(ped)
+      SetEntityProofs(ped, a, b, c, d, e, f, current, current)
+      last = current
+    end
+  end
+end)
+
 
 -- commands
 

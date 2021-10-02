@@ -240,6 +240,7 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
+    -- next-line removes the in-game weapon reticle
     HideHudComponentThisFrame(14)
     if hideHud then
       for i = 1, 22 do

@@ -594,6 +594,16 @@ RegisterFrameworkCommand('radioloud', function(source, args, raw)
   end
 end)
 
+RegisterFrameworkCommand('fuel', function(source, args, raw)
+  local amount = (tonumber(args[1]) or 5) * 13.0
+  local ped = PlayerPedId()
+  if IsPedInAnyVehicle(ped) then
+    if amount > 100 then amount = 100.0
+    elseif amount < 0.0 then amount = 0.0 end
+    DecorSetFloat(GetVehiclePedIsIn(ped), '_Fuel_Level', amount)
+  end
+end)
+
 
 -----/
 

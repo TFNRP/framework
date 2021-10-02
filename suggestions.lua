@@ -42,3 +42,6 @@ RegisterCommandSuggestion({ 'globalme', 'gme', 'globaldo', 'gdo' }, 'Provide inf
 RegisterCommandSuggestion({ 'engine', 'eng' }, 'Toggle the engine of the vehicle you\'re currently in.')
 RegisterCommandSuggestion({ 'handsup', 'hu' }, 'Put your hands in the air.')
 RegisterCommandSuggestion('radioloud', 'Makes the radio of the vehicle you\'re in absolutely booming.')
+RegisterCommandSuggestion('fuel', 'Set the fuel of the vehicle you\'re in.', {
+    { name = 'amount', help = '0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
+})

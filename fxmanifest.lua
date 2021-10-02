@@ -11,6 +11,7 @@ client_script {
 }
 export {
     'GetLocalClientDuty',
+    'IsHudHidden',
     'RegisterCommandSuggestion',
     'RegisterCommandAlias',
     'RegisterFrameworkCommand',

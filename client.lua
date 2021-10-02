@@ -245,7 +245,12 @@ Citizen.CreateThread(function()
     if hideHud then
       for i = 1, 22 do
         HideHudComponentThisFrame(i)
+        HideScriptedHudComponentThisFrame(i)
       end
+      HideHudComponentThisFrame(141)
+      HideScriptedHudComponentThisFrame(141)
+      HideAreaAndVehicleNameThisFrame()
+      HideHelpTextThisFrame()
     end
   end
 end)
@@ -524,9 +529,11 @@ RegisterFrameworkCommand('hud', function(source, args, raw)
   if hideHud then
     ShowNotification('~y~HUD~s~ now ~g~visible~s~.')
     hideHud = false
+    DisplayRadar(true)
   else
     ShowNotification('~y~HUD~s~ now ~r~hidden~s~.')
     hideHud = true
+    DisplayRadar(false)
   end
 end)
 
@@ -705,6 +712,10 @@ end
 
 function GetLocalClientDuty()
   return duty
+end
+
+function IsHudHidden()
+  return hideHud
 end
 
 function ShowNotification(message)

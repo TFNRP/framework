@@ -9,7 +9,7 @@ local isCrouching = false
 local hideHud = false
 
 -- a short welcome message when they join
-if GetConvar('frameworkRestarted') ~= 'true' then
+AddEventHandler('playerSpawned', function ()
   TriggerEvent('chat:addMessage', {
     color = true,
     args = {
@@ -18,7 +18,7 @@ if GetConvar('frameworkRestarted') ~= 'true' then
       '^0^r^*! Please make sure you\'re in the ^3^_/discord^0^r^* server to get started or for help.'
     },
   })
-end
+end)
 
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()

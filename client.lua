@@ -1,6 +1,5 @@
 -- vars
 local duty = 0
-local isPointing = false
 local usePhysgun = false
 local persistentAttach = {}
 local showTaserLaserPlayers = {}
@@ -296,17 +295,14 @@ end)
 RegisterFrameworkCommand('point', function()
   RequestAnimDict('anim@mp_point')
   while not HasAnimDictLoaded('anim@mp_point') do
-    Wait(0)
+    Wait(50)
   end
 
-  if isPointing then
-    ClearPedTasks(ped)
-    isPointing = false
+  local ped = PlayerPedId();
+  if IsTaskMoveNetworkActive(ped) then
+    ClearPedSecondaryTask(ped)
   else
-    local ped = GetPlayerPed(-1);
-    Citizen.Wait(10)
-    TaskMoveNetworkByName(ped, 'task_mp_pointing', .5, 0, 'anim@mp_point', 24)
-    isPointing = true
+    TaskMoveNetworkByName(ped, 'task_mp_pointing', .5, true, 'anim@mp_point', 24)
   end
 end, false)
 

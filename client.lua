@@ -6,6 +6,7 @@ local showTaserLaserPlayers = {}
 local taserLaserState = false
 local isCrouching = false
 local hideHud = false
+local handsUp = false
 
 -- a short welcome message when they join
 AddEventHandler('playerSpawned', function ()
@@ -551,10 +552,15 @@ RegisterFrameworkCommand({ 'handsup', 'hu' }, function(source, args, raw)
         Citizen.Wait(50)
       end
 
-      if IsEntityPlayingAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 3) then
+      if handsUp then
+        -- playing anim and waiting 1 tick fixes unclearable anim union
+        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 8.0, -8, -1, 50, 0)
+        Citizen.Wait(1)
         ClearPedSecondaryTask(ped)
+        handsUp = false
       else
-        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 8.0, -8, -1, 50, 0, false, false, false)
+        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 8.0, -8, -1, 50, 0)
+        handsUp = true
       end
     end)
   end
@@ -568,15 +574,20 @@ RegisterFrameworkCommand({ 'handsupkneel', 'huk' }, function(source, args, raw)
       while not HasAnimDictLoaded('random@getawaydriver') do
         Citizen.Wait(50)
       end
-      RequestAnimDict('mp_arresting')
-      while not HasAnimDictLoaded('mp_arresting') do
-        Citizen.Wait(50)
-      end
 
-      if IsEntityPlayingAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 3) then
+      if IsEntityPlayingAnim(ped, 'random@getawaydriver', 'idle_a', 3) then
+        local arrested = IsEntityPlayingAnim(ped, 'mp_arresting', 'idle', 3)
+        StopAnimTask(ped, 'random@getawaydriver', 'idle_a', 3)
+        StopAnimTask(ped, 'random@getawaydriver', 'idle_2_hands_up', 3)
+        TaskPlayAnim(ped, 'random@getawaydriver', 'hands_up_2_idle', 1.0, -1, -1, 0, 0)
         ClearPedSecondaryTask(ped)
+        if arrested then
+          TaskPlayAnim(ped, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0)
+        end
       else
-        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 8.0, -8, -1, 50, 0, false, false, false)
+        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_2_hands_up', 1.0, -1, -1, 0, 0)
+        Citizen.Wait(3500)
+        TaskPlayAnim(ped, 'random@getawaydriver', 'idle_a', 1.0, -1, -1, 1, 0)
       end
     end)
   end

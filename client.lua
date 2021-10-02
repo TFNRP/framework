@@ -23,10 +23,9 @@ end)
 -- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
   while true do
+    Citizen.Wait(1)
     SetWeaponDamageModifierThisFrame(GetHashKey('WEAPON_STUNGUN'), .1)
-    Citizen.Wait(0)
     SetWeaponDamageModifierThisFrame(GetHashKey('WEAPON_NIGHTSTICK'), .1)
-    Citizen.Wait(0)
   end
 end)
 

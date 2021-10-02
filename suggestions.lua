@@ -27,21 +27,21 @@ RegisterCommandSuggestion({ 'fix', 'repair' }, 'Fix the vehicle you\'re near.')
 RegisterCommandSuggestion('hood', 'Open the hood of the vehicle you\'re near.')
 RegisterCommandSuggestion('trunk', 'Open the trunk of the vehicle you\'re near.')
 RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re near.', {
-    { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
+  { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
 })
 RegisterCommandSuggestion('taserlaser', 'Toggle your taser\'s laser. Best experienced in first-person because bullets shoot from the camera.')
 RegisterCommandSuggestion({ 'heal', 'health' }, 'Set your health.', {
-    { name = 'amount', help = '0 = none (dead), 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
+  { name = 'amount', help = '0 = none (dead), 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
 })
 RegisterCommandSuggestion({ 'armour', 'armor' }, 'Set your armour.', {
-    { name = 'amount', help = '0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
+  { name = 'amount', help = '0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
 })
 RegisterCommandSuggestion({ 'globalme', 'gme', 'globaldo', 'gdo' }, 'Provide information or an action for players further away.', {
-    { name = 'message', help = 'The message you would like to send.' }
+  { name = 'message', help = 'The message you would like to send.' }
 })
 RegisterCommandSuggestion({ 'engine', 'eng' }, 'Toggle the engine of the vehicle you\'re currently in.')
 RegisterCommandSuggestion({ 'handsup', 'hu' }, 'Put your hands in the air.')
 RegisterCommandSuggestion('radioloud', 'Makes the radio of the vehicle you\'re in absolutely booming.')
 RegisterCommandSuggestion('fuel', 'Set the fuel of the vehicle you\'re in.', {
-    { name = 'amount', help = '0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
+  { name = 'amount', help = '0 = none, 1 = some, 2 = under half, 3 = over half, 4 = almost max, 5 = max.' }
 })

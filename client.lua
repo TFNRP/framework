@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     if IsPedArmed(PlayerPedId(), 6) and not IsPedInAnyVehicle(PlayerPedId()) then
       DisableControlAction(1, 140, true)
-         DisableControlAction(1, 141, true)
+      DisableControlAction(1, 141, true)
       DisableControlAction(1, 142, true)
     end
   end
@@ -178,12 +178,12 @@ Citizen.CreateThread(function()
         end
       end
     end
-  end 
+  end
 end)
 
 -- synchronise vehicle weapon
---- Automatically pulls out the last weapon the player selected when in a vehicle.  
---- Will not automatically pull out the last weapon if the player entered the vehicle with a large weapon.  
+--- Automatically pulls out the last weapon the player selected when in a vehicle.
+--- Will not automatically pull out the last weapon if the player entered the vehicle with a large weapon.
 Citizen.CreateThread(function()
   local lastHash
   local lastNotInVehicle = true

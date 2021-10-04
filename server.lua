@@ -289,7 +289,7 @@ function SetDuty(source, duty)
       TriggerClientEvent('framework:dutyChange', source, duty)
     end
   else
-    if lastDuty == 0 then TriggerClientEvent('chat:addMessage', source, 'You are already off duty.')
+    if lastDuty.type == 0 then TriggerClientEvent('chat:addMessage', source, 'You are already off duty.')
     else
       PlayersOnDuty[source] = nil
       TriggerClientEvent('chat:addMessage', source, 'You are now off duty.')

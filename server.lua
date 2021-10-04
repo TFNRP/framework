@@ -244,6 +244,15 @@ RegisterFrameworkCommand('spawncode', function (source, args, raw)
   TriggerClientEvent('framework:printCurrentVehicleName', source)
 end, true)
 
+RegisterFrameworkCommand('density', function (source, args, raw)
+  local density = tonumber(args[1])
+  if type(density) ~= 'number' then
+    CommandWarning(source, 'density must be a number.')
+  else
+    TriggerClientEvent('framework:setDensity', source)
+  end
+end, true)
+
 -- utilities
 
 function SetDuty(source, duty)
@@ -326,4 +335,8 @@ function GetPlayerDisplayName(source)
     if IsPlayerAceAllowed(source, prefix[1]) ~= false then return prefix[2] .. GetPlayerName(source) .. '^0' end
   end
   return GetPlayerName(source) .. '^0'
+end
+
+function CommandWarning(src, message)
+  TriggerClientEvent('chat:addMessage', src, { args = { message } })
 end

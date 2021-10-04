@@ -7,6 +7,7 @@ local taserLaserState = false
 local isCrouching = false
 local hideHud = false
 local handsUp = false
+local serverDensity = Config.DefaultDensity
 
 -- a short welcome message when they join
 AddEventHandler('playerSpawned', function ()
@@ -259,8 +260,8 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1) -- wait a tick
-    SetPedDensityMultiplierThisFrame(.5)
-    SetVehicleDensityMultiplierThisFrame(.55)
+    SetPedDensityMultiplierThisFrame(serverDensity)
+    SetVehicleDensityMultiplierThisFrame(serverDensity)
   end
 end)
 
@@ -302,6 +303,14 @@ Citizen.CreateThread(function()
       SetEntityProofs(ped, a, b, c, d, e, f, current, current)
       last = current
     end
+  end
+end)
+
+-- infinite fire extinguisher
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(30000)
+    SetAmmoInClip(PlayerPedId(), GetHashKey('WEAPON_FIREEXTINGUISHER'), 2000)
   end
 end)
 
@@ -696,6 +705,10 @@ RegisterNetEvent('framework:printCurrentVehicleName', function(serverId)
       '(Copied): ' .. code
     },
   })
+end)
+
+RegisterNetEvent('framework:setDensity', function(density)
+  serverDensity = tonumber(density) or Config.DefaultDensity
 end)
 
 -- util

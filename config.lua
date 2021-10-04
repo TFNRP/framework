@@ -24,6 +24,7 @@ Config = {
         }
       end
     },
+    DefaultDensity = .5,
     chatPrivate = {
       GetConvar('framework_ServerNotifications_chatPrivate', ''),
       function (source, data)

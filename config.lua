@@ -8,6 +8,7 @@ Config = {
     {'prefix.sahp', '^3[SAHP] '},
     {'prefix.sams', '^2[SAMS] '},
   },
+  DefaultDensity = .5,
   ServerNotifications = {
     chatPublic = {
       GetConvar('framework_ServerNotifications_chatPublic', ''),
@@ -24,7 +25,6 @@ Config = {
         }
       end
     },
-    DefaultDensity = .5,
     chatPrivate = {
       GetConvar('framework_ServerNotifications_chatPrivate', ''),
       function (source, data)

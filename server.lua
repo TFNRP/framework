@@ -83,72 +83,84 @@ end)
 
 RegisterFrameworkCommand({ 'me', 'do' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  ServerNotification('chatPublic', source, '[me]: ' .. message)
-  TriggerClientEvent('chat:addProximityMessage', -1, source, {
-    args = {
-      '^r ' .. GetPlayerName(source),
-      '^r ' .. message
-    },
-  })
+  if ContainsNonWhitespaceCharacter(message) then
+    ServerNotification('chatPublic', source, '[me]: ' .. message)
+    TriggerClientEvent('chat:addProximityMessage', -1, source, {
+      args = {
+        '^r ' .. GetPlayerName(source),
+        '^r ' .. message
+      },
+    })
+  end
 end, false)
 
 RegisterFrameworkCommand({ 'globalme', 'gme', 'globaldo', 'gdo' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  ServerNotification('chatPublic', source, '[global me]: ' .. message)
-  TriggerClientEvent('chat:addMessage', -1, {
-    args = {
-      '^*^3[Global Me] ^r ' .. GetPlayerDisplayName(source),
-      '^r ' .. message
-    }
-  })
+  if ContainsNonWhitespaceCharacter(message) then
+    ServerNotification('chatPublic', source, '[global me]: ' .. message)
+    TriggerClientEvent('chat:addMessage', -1, {
+      args = {
+        '^*^3[Global Me] ^r ' .. GetPlayerDisplayName(source),
+        '^r ' .. message
+      }
+    })
+  end
 end, false)
 
 RegisterFrameworkCommand({ 'ooc', 'global' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  ServerNotification('chatPublic', source, '[ooc]: ' .. message)
-  TriggerClientEvent('chat:addMessage', -1, {
-    args = {
-      '^*^3[OOC] ' .. GetPlayerDisplayName(source),
-      '^r' .. message
-    }
-  })
+  if ContainsNonWhitespaceCharacter(message) then
+    ServerNotification('chatPublic', source, '[ooc]: ' .. message)
+    TriggerClientEvent('chat:addMessage', -1, {
+      args = {
+        '^*^3[OOC] ' .. GetPlayerDisplayName(source),
+        '^r' .. message
+      }
+    })
+  end
 end, false)
 
 RegisterFrameworkCommand({ 'ad', 'advert' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  ServerNotification('chatPublic', source, '[advert]: ' .. message)
-  TriggerClientEvent('chat:addMessage', -1, {
-    args = {
-      '^*^3[ADVERT] ' .. GetPlayerName(source),
-      '^r^*^3' .. message
-    }
-  })
+  if ContainsNonWhitespaceCharacter(message) then
+    ServerNotification('chatPublic', source, '[advert]: ' .. message)
+    TriggerClientEvent('chat:addMessage', -1, {
+      args = {
+        '^*^3[ADVERT] ' .. GetPlayerName(source),
+        '^r^*^3' .. message
+      }
+    })
+  end
 end, false)
 
 RegisterFrameworkCommand('darkweb', function (source, args, raw)
   local message = table.concat(args, ' ')
-  ServerNotification('chatPublic', source, '[darkweb]: ' .. message)
-  TriggerClientEvent('chat:addMessage', -1, {
-    args = {
-      '^*[Dark Web]',
-      '^r^*' .. message
-    },
-    color = { 0, 0, 0 },
-  })
+  if ContainsNonWhitespaceCharacter(message) then
+    ServerNotification('chatPublic', source, '[darkweb]: ' .. message)
+    TriggerClientEvent('chat:addMessage', -1, {
+      args = {
+        '^*[Dark Web]',
+        '^r^*' .. message
+      },
+      color = { 0, 0, 0 },
+    })
+  end
 end, false)
 
 RegisterFrameworkCommand({ 'tweet', 'twt', 'twitter' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  ServerNotification('chatPublic', source, '[twitter]: ' .. message)
-  TriggerClientEvent('chat:addMessage', -1, {
-    args = {
-      '^0[^4Twitter^0]',
-      '^3@' .. GetPlayerName(source) .. ' ^0' .. message
-    },
-    color = { 30, 144, 255 },
-  })
-  lastTweet = message
-  lastTweeter = GetPlayerName(source)
+  if ContainsNonWhitespaceCharacter(message) then
+    ServerNotification('chatPublic', source, '[twitter]: ' .. message)
+    TriggerClientEvent('chat:addMessage', -1, {
+      args = {
+        '^0[^4Twitter^0]',
+        '^3@' .. GetPlayerName(source) .. ' ^0' .. message
+      },
+      color = { 30, 144, 255 },
+    })
+    lastTweet = message
+    lastTweeter = GetPlayerName(source)
+  end
 end, false)
 
 RegisterFrameworkCommand({ 'rt', 'retweet' }, function (source, args, raw)

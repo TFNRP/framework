@@ -262,7 +262,6 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1) -- wait a tick
-    print(Config.ServerDensity)
     SetPedDensityMultiplierThisFrame(Config.ServerDensity)
     SetVehicleDensityMultiplierThisFrame(Config.ServerDensity)
   end

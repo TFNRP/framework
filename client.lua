@@ -663,8 +663,8 @@ RegisterNetEvent('chat:addProximityMessage', function (serverId, message)
   local player = GetPlayerFromServerId(serverId)
   local client = PlayerId()
   if
-    player == client or GetDistanceBetweenCoords(
-      GetEntityCoords(GetPlayerPed(client)), GetEntityCoords(GetPlayerPed(player)), true
+    player == client or #(
+      GetEntityCoords(GetPlayerPed(client)) - GetEntityCoords(GetPlayerPed(player))
     ) < Constants.ProximityMessageDistance
   then
     TriggerEvent('chat:addMessage', message)

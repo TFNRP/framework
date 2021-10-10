@@ -13,7 +13,7 @@ export {
     'GetLocalClientDuty',
     'RegisterCommandSuggestion',
     'RegisterCommandAlias',
-    'RegisterFrameworkCommand',
+    -- 'RegisterFrameworkCommand', Failed export defined in "server_export"?
 }
 server_script {
     'dependencies/**.lua',

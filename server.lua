@@ -3,6 +3,7 @@
 PlayersOnDuty = {}
 local lastTweet = nil
 local lastTweeter = nil
+local clientConfig = { ServerDensity = Config.DefaultDensity }
 
 RegisterNetEvent('framework:physgunAttachSend', function(serverId, detach)
   TriggerClientEvent('framework:physgunAttach', serverId, source, detach)
@@ -14,6 +15,10 @@ RegisterNetEvent('framework:taserLaserSet', function(state)
   else
     TriggerClientEvent('framework:taserLaserRenderStop', -1, source)
   end
+end)
+
+RegisterNetEvent('framework:requestConfig', function()
+  TriggerClientEvent('framework:setConfig', source, clientConfig)
 end)
 
 AddEventHandler('playerConnecting', function(name)
@@ -249,7 +254,8 @@ RegisterFrameworkCommand('density', function (source, args, raw)
   if type(density) ~= 'number' then
     CommandWarning(source, 'density must be a number.')
   else
-    TriggerClientEvent('framework:setDensity', source)
+    clientConfig.ServerDensity = density + .0
+    TriggerClientEvent('framework:setConfig', -1, clientConfig)
   end
 end, true)
 

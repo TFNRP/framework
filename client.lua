@@ -1,3 +1,6 @@
+-- globals
+Config = {}
+
 -- vars
 local duty = 0
 local usePhysgun = false
@@ -7,7 +10,6 @@ local taserLaserState = false
 local isCrouching = false
 local hideHud = false
 local handsUp = false
-local serverDensity = Config.DefaultDensity
 
 -- a short welcome message when they join
 AddEventHandler('playerSpawned', function ()
@@ -260,8 +262,9 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1) -- wait a tick
-    SetPedDensityMultiplierThisFrame(serverDensity)
-    SetVehicleDensityMultiplierThisFrame(serverDensity)
+    print(Config.ServerDensity)
+    SetPedDensityMultiplierThisFrame(Config.ServerDensity)
+    SetVehicleDensityMultiplierThisFrame(Config.ServerDensity)
   end
 end)
 
@@ -707,9 +710,11 @@ RegisterNetEvent('framework:printCurrentVehicleName', function(serverId)
   })
 end)
 
-RegisterNetEvent('framework:setDensity', function(density)
-  serverDensity = tonumber(density) or Config.DefaultDensity
+RegisterNetEvent('framework:setConfig', function(conf)
+  Config = conf
 end)
+
+TriggerServerEvent('framework:requestConfig')
 
 -- util
 

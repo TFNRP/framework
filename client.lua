@@ -23,12 +23,16 @@ AddEventHandler('playerSpawned', function ()
   })
 end)
 
--- decrease dmg output of taser & baton
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
+    -- decrease dmg output of taser & baton
     SetWeaponDamageModifierThisFrame(GetHashKey('WEAPON_STUNGUN'), .1)
     SetWeaponDamageModifierThisFrame(GetHashKey('WEAPON_NIGHTSTICK'), .1)
+    -- disable combat rolling & climbing whilst aiming
+    if IsPlayerFreeAiming(PlayerId()) then
+      DisableControlAction(0, 22, true)
+    end
   end
 end)
 

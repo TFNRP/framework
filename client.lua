@@ -361,10 +361,10 @@ RegisterFrameworkCommand({ 'pm', 'dm', 'message' }, function (source, args, raw)
 
   TriggerServerEvent('chat:addPrivateMessage', serverId, {
     args = {
-      string.format(Format.PM, GetPlayerName(player), 'You'), argMessage
+      string.format(Constants.Format.PM, GetPlayerName(player), 'You'), argMessage
     }
   })
-  TriggerEvent('chat:addMessage', { args = { string.format(Format.PM, 'You', GetPlayerName(player)), argMessage } })
+  TriggerEvent('chat:addMessage', { args = { string.format(Constants.Format.PM, 'You', GetPlayerName(player)), argMessage } })
 end, false)
 
 RegisterFrameworkCommand('discord', function()

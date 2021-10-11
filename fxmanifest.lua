@@ -2,6 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 shared_script {
+  'constants.lua',
   'util.lua',
 }
 client_script {

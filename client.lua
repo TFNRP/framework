@@ -637,12 +637,14 @@ RegisterFrameworkCommand('radioloud', function(source, args, raw)
 end)
 
 RegisterFrameworkCommand('fuel', function(source, args, raw)
-  local amount = (tonumber(args[1]) or 5) * 13.0
   local ped = PlayerPedId()
-  if IsPedInAnyVehicle(ped) then
-    if amount > 100 then amount = 100.0
+  if IsPedInAnyVehicle(ped) and DecorIsRegisteredAsType('_Fuel_Level', 1) then
+    local vehicle = GetVehiclePedIsIn(ped)
+    local max = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fPetrolTankVolume')
+    local amount = (tonumber(args[1]) or 5) * max / 5.0 -- ensures it's a float lol
+    if amount > max then amount = max
     elseif amount < 0.0 then amount = 0.0 end
-    DecorSetFloat(GetVehiclePedIsIn(ped), '_Fuel_Level', amount)
+    DecorSetFloat(vehicle, '_Fuel_Level', amount)
   end
 end)
 

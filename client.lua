@@ -10,6 +10,8 @@ local taserLaserState = false
 local isCrouching = false
 local hideHud = false
 local handsUp = false
+local dragging = false
+local draggedBy = nil
 
 -- a short welcome message when they join
 AddEventHandler('playerSpawned', function ()
@@ -717,6 +719,64 @@ end)
 
 RegisterNetEvent('framework:setConfig', function(conf)
   Config = conf
+end)
+
+RegisterNetEvent('framework:requestDrag', function(serverId, confirmation)
+  if type(confirmation) ~= 'nil' then
+    -- confirmation from client
+    dragging = confirmation
+  else
+    if dragging then
+      if dragging == serverId then
+        TriggerClientEvent('framework:requestServerDrag', serverId)
+      else
+        return CommandWarning('you can\'t drag multiple people at once, you\'re not superman')
+      end
+    end
+    if type(serverId) ~= 'number' then
+      local player = GetClosestPlayer(5)
+      if not player then
+        return CommandWarning('no player nearby')
+      end
+      serverId = GetPlayerServerId(player)
+    end
+    TriggerClientEvent('framework:requestServerDrag', serverId)
+  end
+end)
+
+-- toggles drag
+RegisterNetEvent('framework:drag', function(serverId)
+  if draggedBy then
+    DetachEntity(PlayerPedId(), true, false)
+    draggedBy = nil
+  elseif serverId then
+    -- on-duty staff cannot be dragged
+    if GetLocalClientDuty() > 1 then
+      return TriggerEvent('chat:addMessage', {
+        args = {
+          Constants.SystemPrefix,
+          '~r~Player ' .. serverId .. '~s~ attempted to ~y~drag~s~ you.',
+        }
+      })
+    end
+    draggedBy = serverId
+    Citizen.CreateThread(function()
+      while draggedBy == serverId do
+        Citizen.Wait(1)
+        local ped = GetPlayerPed(GetPlayerFromServerId(serverId))
+        if ped and not IsPlayerDead(serverId) then
+          AttachEntityToEntity(PlayerPedId(), ped, 4103, 0.35, 0.38, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+          -- disable melee functions
+          DisableControlAction(1, 140, true)
+          DisableControlAction(1, 141, true)
+          DisableControlAction(1, 142, true)
+        else
+          TriggerEvent('framework:drag')
+        end
+      end
+    end)
+  end
+  TriggerServerEvent('framework:confirmDrag', serverId, draggedBy)
 end)
 
 TriggerServerEvent('framework:requestConfig')

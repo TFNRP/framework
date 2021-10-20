@@ -21,14 +21,6 @@ RegisterNetEvent('framework:requestConfig', function()
   TriggerClientEvent('framework:setConfig', source, clientConfig)
 end)
 
-RegisterNetEvent('framework:requestServerDrag', function(serverId)
-  TriggerClientEvent('framework:drag', serverId, source)
-end)
-
-RegisterNetEvent('framework:confirmDrag', function(serverId, value)
-  TriggerClientEvent('framework:requestDrag', serverId, value or false)
-end)
-
 AddEventHandler('playerConnecting', function(name)
   ServerNotification('serverPublic', nil, name .. ' connecting...')
 end)
@@ -252,24 +244,6 @@ Citizen.CreateThread(function()
     end
   end
 end)
-
--- leo
-
-RegisterFrameworkCommand('drag', function (source, args, raw)
-  local serverId = args[1]
-  if serverId then
-    serverId = tonumber(serverId)
-    if type(serverId) ~= 'number' then
-      return CommandWarning(source, 'invalid player id')
-    end
-    if GetPlayerPed(serverId) == 0 then
-      return CommandWarning(source, 'this player does not exist')
-    end
-    TriggerClientEvent('framework:requestDrag', source, serverId)
-  else
-    TriggerClientEvent('framework:requestDrag', source)
-  end
-end, false)
 
 -- staff
 

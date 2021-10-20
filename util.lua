@@ -39,28 +39,3 @@ function ContainsNonWhitespaceCharacter(string)
   end
   return false
 end
-
-function GetClosestPlayer(radius, x, y, z)
-  if not radius then
-    radius = 20
-  end
-  if not x then
-    local coords = GetEntityCoords(PlayerPedId())
-    x, y, z = coords.x, coords.y, coords.z
-  end
-
-  local closestPlayer = nil
-  local closestDistance = radius
-  local pointCoords = vector3(x, y, z)
-  for _, player in ipairs(GetActivePlayers()) do
-    local ped = GetPlayerPed(player)
-    if ped ~= 0 and player ~= PlayerId() then
-      -- get the relative distance from point A
-      local distance = #(GetEntityCoords(ped) - pointCoords)
-      if distance < closestDistance then
-        closestPlayer, closestDistance = player, distance
-      end
-    end
-  end
-  return closestPlayer
-end

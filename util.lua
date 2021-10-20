@@ -39,3 +39,14 @@ function ContainsNonWhitespaceCharacter(string)
   end
   return false
 end
+
+function ContainsSwear(str)
+  if type(Config.SwearFilter) == 'number' then
+    for _, pattern in ipairs(Config.SwearFilter) do
+      if str:gmatch(pattern) then
+        return true
+      end
+    end
+  end
+  return false
+end

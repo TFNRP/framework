@@ -64,7 +64,7 @@ AddEventHandler('chatMessage', function(source, name, message)
           'Command "' .. message .. '" does not exist.'
         }
       })
-    else
+    elseif not ContainsSwear(message) then
       ServerNotification('chatPublic', source, message)
       TriggerClientEvent('chat:addProximityMessage', -1, source, {
         args = {
@@ -83,7 +83,7 @@ end)
 
 RegisterFrameworkCommand({ 'me', 'do' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  if ContainsNonWhitespaceCharacter(message) then
+  if ContainsNonWhitespaceCharacter(message) and not ContainsSwear(message) then
     ServerNotification('chatPublic', source, '[me]: ' .. message)
     TriggerClientEvent('chat:addProximityMessage', -1, source, {
       args = {
@@ -96,7 +96,7 @@ end, false)
 
 RegisterFrameworkCommand({ 'globalme', 'gme', 'globaldo', 'gdo' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  if ContainsNonWhitespaceCharacter(message) then
+  if ContainsNonWhitespaceCharacter(message) and not ContainsSwear(message) then
     ServerNotification('chatPublic', source, '[global me]: ' .. message)
     TriggerClientEvent('chat:addMessage', -1, {
       args = {
@@ -109,7 +109,7 @@ end, false)
 
 RegisterFrameworkCommand({ 'ooc', 'global' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  if ContainsNonWhitespaceCharacter(message) then
+  if ContainsNonWhitespaceCharacter(message) and not ContainsSwear(message) then
     ServerNotification('chatPublic', source, '[ooc]: ' .. message)
     TriggerClientEvent('chat:addMessage', -1, {
       args = {
@@ -122,7 +122,7 @@ end, false)
 
 RegisterFrameworkCommand({ 'ad', 'advert' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  if ContainsNonWhitespaceCharacter(message) then
+  if ContainsNonWhitespaceCharacter(message) and not ContainsSwear(message) then
     ServerNotification('chatPublic', source, '[advert]: ' .. message)
     TriggerClientEvent('chat:addMessage', -1, {
       args = {
@@ -135,7 +135,7 @@ end, false)
 
 RegisterFrameworkCommand('darkweb', function (source, args, raw)
   local message = table.concat(args, ' ')
-  if ContainsNonWhitespaceCharacter(message) then
+  if ContainsNonWhitespaceCharacter(message) and not ContainsSwear(message) then
     ServerNotification('chatPublic', source, '[darkweb]: ' .. message)
     TriggerClientEvent('chat:addMessage', -1, {
       args = {
@@ -149,7 +149,7 @@ end, false)
 
 RegisterFrameworkCommand({ 'tweet', 'twt', 'twitter' }, function (source, args, raw)
   local message = table.concat(args, ' ')
-  if ContainsNonWhitespaceCharacter(message) then
+  if ContainsNonWhitespaceCharacter(message) and not ContainsSwear(message) then
     ServerNotification('chatPublic', source, '[twitter]: ' .. message)
     TriggerClientEvent('chat:addMessage', -1, {
       args = {

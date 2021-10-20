@@ -8,6 +8,13 @@ Config = {
     {'prefix.sahp', '^3[SAHP] '},
     {'prefix.sams', '^2[SAMS] '},
   },
+  SwearFilter = {
+    'nigger',
+    'nigg?a',
+    'retard',
+    'nazi',
+    'hitler',
+  },
   DefaultDensity = .5,
   ServerNotifications = {
     chatPublic = {

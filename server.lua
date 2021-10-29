@@ -5,6 +5,8 @@ local lastTweet = nil
 local lastTweeter = nil
 local clientConfig = { ServerDensity = Config.DefaultDensity }
 
+SetConvar('tfnrp_framework_init', 'true')
+
 RegisterNetEvent('framework:physgunAttachSend', function(serverId, detach)
   TriggerClientEvent('framework:physgunAttach', serverId, source, detach)
 end)

@@ -320,6 +320,23 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- leave engine running
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = PlayerPedId()
+
+    if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+      Citizen.Wait(200)
+      if IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) then
+        local vehicle = GetVehiclePedIsIn(ped, true)
+        SetVehicleEngineOn(vehicle, true, true, false)
+        TaskLeaveVehicle(ped, vehicle, 0)
+      end
+    end
+  end
+end)
+
 
 -- commands
 

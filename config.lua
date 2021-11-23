@@ -15,6 +15,7 @@ Config = {
     'nazi',
     'hitler',
   },
+  DiscordInvite = 'dsc.gg/tfn',
   DefaultDensity = .5,
   ServerNotifications = {
     chatPublic = {

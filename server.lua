@@ -6,7 +6,6 @@ local lastTweeter = nil
 local clientConfig = { ServerDensity = Config.DefaultDensity }
 
 SetConvarReplicated('tfnrp_framework_init', 'true')
-SetMapName('Discord', Config.DiscordInvite)
 
 RegisterNetEvent('framework:physgunAttachSend', function(serverId, detach)
   TriggerClientEvent('framework:physgunAttach', serverId, source, detach)

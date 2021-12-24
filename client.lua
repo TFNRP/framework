@@ -319,6 +319,29 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- wordmark
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local time = GetGameTimer() / 1e3
+    SetTextColour(
+      math.floor(math.sin(time + 0) * 127 + 128),
+      math.floor(math.sin(time + 2) * 127 + 128),
+      math.floor(math.sin(time + 4) * 127 + 128),
+      255
+    )
+    SetTextFont(1)
+    SetTextScale(.7, .7)
+    SetTextWrap(.0, 1.0)
+    SetTextCentre(false)
+    SetTextDropshadow(2, 2, 0, 0, 0)
+    SetTextEntry('STRING')
+    SetScriptGfxAlign(82)
+    AddTextComponentSubstringPlayerName('DSC.GG/TFN')
+    DrawText(.89, .001)
+  end
+end)
+
 
 -- commands
 

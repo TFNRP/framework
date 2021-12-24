@@ -399,6 +399,7 @@ RegisterFrameworkCommand({ 'dv', 'delveh' }, function()
     if IsPedSittingInVehicle(ped, vehicle) and not GetPedInVehicleSeat(vehicle, -1) == ped then
       ShowNotification('~r~Error: ~s~You must be the driver of the vehicle.')
     else
+      NetworkRequestControlOfEntity(vehicle)
       SetEntityAsMissionEntity(vehicle, true, true)
       DeleteVehicle(vehicle)
       if not (DoesEntityExist(vehicle)) then

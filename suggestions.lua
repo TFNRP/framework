@@ -27,7 +27,13 @@ RegisterCommandSuggestion({ 'fix', 'repair' }, 'Fix the vehicle you\'re near.')
 RegisterCommandSuggestion('hood', 'Open the hood of the vehicle you\'re near.')
 RegisterCommandSuggestion('trunk', 'Open the trunk of the vehicle you\'re near.')
 RegisterCommandSuggestion('door', 'Open a door of the vehicle you\'re near.', {
-  { name = 'number', help = 'The number of the door to open. 1 is driver\'s, 2 is passenger\'s, etc.' }
+  { name = 'door', help = 'Can be the number of the door or the door\'s name. i.e. "driver", "passenger", "1", "2"' }
+})
+RegisterCommandSuggestion('door f', 'Just like /door, but forces the door to stay open.', {
+  { name = 'door', help = 'Can be the number of the door or the door\'s name. i.e. "driver", "passenger", "1", "2"' }
+})
+RegisterCommandSuggestion('door q', 'Just like /door, but instantly opens/closes doors.', {
+  { name = 'door', help = 'Can be the number of the door or the door\'s name. i.e. "driver", "passenger", "1", "2"' }
 })
 RegisterCommandSuggestion('taserlaser', 'Toggle your taser\'s laser. Best experienced in first-person because bullets shoot from the camera.')
 RegisterCommandSuggestion({ 'heal', 'health' }, 'Set your health.', {

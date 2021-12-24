@@ -462,18 +462,40 @@ end)
 
 RegisterFrameworkCommand('door', function(source, args, raw)
   local vehicle = GetVehiclePedIsInOrNear(PlayerPedId(), false)
-  local door = (tonumber(args[1]) or 1) - 1
-  if vehicle and vehicle > 1 then
-    local doors = GetNumberOfVehicleDoors(vehicle) - 1
-    if doors < door then door = doors
-    elseif door < 0 then door = 0 end
-    NetworkRequestControlOfEntity(vehicle)
-    if GetVehicleDoorAngleRatio(vehicle, door) > 0 then
-      SetVehicleDoorShut(vehicle, door, false)
-    else
-      SetVehicleDoorOpen(vehicle, door, false, false)
-      Wait(1e3)
-      SetVehicleDoorOpen(vehicle, door, true, false)
+  local loose = true
+  local instant = false
+  if #args == 0 then table.insert(args, 1) end
+  for _, arg in ipairs(args) do
+    local door = tonumber(arg)
+    if not door then
+      arg = arg:lower()
+      if Constants.DoorIndex[arg] then
+        door = Constants.DoorIndex[arg]
+      elseif ({ f = true, force = true })[arg] then
+        loose = false
+      elseif ({ q = true, quick = true })[arg] then
+        instant = true
+      else
+        CommandWarning('Didn\'t understand what "' .. arg .. '" was.')
+      end
+    end
+    if door then
+      door = door - 1
+      if vehicle and vehicle > 1 then
+        local doors = GetNumberOfVehicleDoors(vehicle) - 1
+        if doors < door then door = doors
+        elseif door < 0 then door = 0 end
+        NetworkRequestControlOfEntity(vehicle)
+        if GetVehicleDoorAngleRatio(vehicle, door) > 0 then
+          SetVehicleDoorShut(vehicle, door, instant)
+        else
+          CreateThread(function()
+            SetVehicleDoorOpen(vehicle, door, false, instant)
+            Wait(1e3)
+            SetVehicleDoorOpen(vehicle, door, loose, instant)
+          end)
+        end
+      end
     end
   end
 end)

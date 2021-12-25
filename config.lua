@@ -14,6 +14,8 @@ Config = {
     'retard',
     'nazi',
     'hitler',
+    'fag',
+    'faggot',
   },
   DefaultDensity = .5,
   ServerNotifications = {

@@ -339,6 +339,7 @@ Citizen.CreateThread(function()
     SetScriptGfxAlign(82)
     AddTextComponentSubstringPlayerName('DSC.GG/TFN')
     DrawText(.89, .001)
+    ResetScriptGfxAlign()
   end
 end)
 

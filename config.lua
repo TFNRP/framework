@@ -4,9 +4,10 @@ Config = {
     {'prefix.moderator', '^2[Moderator] '},
     {'prefix.staff', '^2[Staff] '},
     {'prefix.lspd', '^5[LSPD] '},
-    {'prefix.bcso', '^8[BCSO] '},
+    {'prefix.bcso', '^3[BCSO] '},
     {'prefix.sahp', '^3[SAHP] '},
-    {'prefix.sams', '^2[SAMS] '},
+    {'prefix.safr', '^2[SAFR] '},
+    {'prefix.sast', '^5[SAST] '},
   },
   SwearFilter = {
     'nigger',
